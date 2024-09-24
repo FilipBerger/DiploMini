@@ -5,13 +5,13 @@
         Game _game;
         public GameService() 
         {
-            _game = new Game();
-            //_game = Game.CreateGame(List<Player> players, )
+            _game = Game.GetTestGame();
+            
 
         }
-        public void SubmitOrder(List<Order> order)
+        public void SubmitOrder(List<Order> orders)
         {
-            throw new NotImplementedException();
+            
         }
 
         public List<Country> GetUpdatedGameState()
