@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models
+namespace DiploMini.Models
 {
-    internal class Army
+    public class Army
     {
         public int Id { get; set; }
         public Player Owner { get; set; }

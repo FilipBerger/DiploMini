@@ -1,4 +1,4 @@
-﻿namespace DiploMini.Server
+﻿namespace DiploMini.Models
 {
     public enum FactionColors
     {
