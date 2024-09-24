@@ -25,8 +25,8 @@ namespace DiploMini.Models
         {
             Game test = new Game();
             test.Id = 1;
-            test.Players = new List<Player>();
-            test.Map = new List<Country>();
+            test.Players = new List<Player>(){};
+            test.Map = Country.GetTestMap();
             test.IngameDate = "Spring 1901";
             return new Game();
         }
