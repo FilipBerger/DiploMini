@@ -10,7 +10,10 @@ namespace DiploMini.Models
         public List<Player> Players { get; set; }
         public List<Country> Map { get; set; }
         public string IngameDate { get; set; }
-        //public bool AllPlayersReady { get; set; }
+        public List<string> History { get; set; }
+
+        //public bool GameStarted { get; set; }
+        public bool UpdateReady { get; set; }
 
         //public Game() {
         //    Id = 0;
@@ -18,7 +21,7 @@ namespace DiploMini.Models
         //    Players = new List<Player>();
         //    Map = new List<Country>();
         //    IngameDate = "Spring 1901";
-            
+
         //}
 
         public static Game GetTestGame()
@@ -28,6 +31,8 @@ namespace DiploMini.Models
             test.Players = Player.GetTestPlayers();
             test.Map = Country.GetTestMap();
             test.IngameDate = "Spring 1901";
+            test.UpdateReady = true;
+            test.History = new List<string>() { "Peace" };
             return test;
         }
     }

@@ -8,7 +8,8 @@ namespace DiploMini.Server
     {
         void SubmitOrders(List<Order> order);
         void HandleMovement(List<Order> orders);
-        List<Country> GetUpdatedGameState();
+        List<Country> GetInitialMap();
+        Game GetUpdatedGameState();
 
     }
 }

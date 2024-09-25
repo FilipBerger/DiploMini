@@ -16,22 +16,31 @@ namespace DiploMini.Server
             
         }
 
-        public List<Country> GetUpdatedGameState()
+        public List<Country> GetInitialMap()
         {
             return Game.Map;
+        }
+
+        public Game GetUpdatedGameState()
+        {
+            return Game;
+            //return Game.Map;
         }
         public void HandleMovement(List<Order> orders)
         {
             foreach (Order order in orders)
             {
                 var targetCountry = Game.Map.FirstOrDefault(c => c.Name == order.Target);
-                targetCountry.OccupyingArmy = new Army() { Id = 1, Owner = new Player() { Id = 1, FactionName = "TestFaction1", Color = FactionColors.Red, Defeated = false } };
+                if (targetCountry == null) 
+                    continue;
+                targetCountry.OccupyingArmy = new Army() { Id = order.ArmyId, OwnerId = order.OwnerId };
+                targetCountry.OwnerId = order.OwnerId;
                 if(order.Origin != order.Target)
                 {
                     var originCountry = Game.Map.FirstOrDefault(c => c.Name == order.Origin);
                     originCountry.OccupyingArmy = null;
                 }
-                
+
             }
         }
     }
