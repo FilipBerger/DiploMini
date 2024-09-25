@@ -1,5 +1,7 @@
 using DiploMini.Models;
-using Models;
+using DiploMini.Server;
+using DiploMini.Server.Endpoints;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,12 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+builder.Services.AddSingleton<IGameService, GameService>();
 
 var app = builder.Build();
-
-Game Session = new Game();
-List<Order> Orders = new List<Order>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -24,8 +23,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
+app.MapGameEndpoints();
 
 app.Run();
-
-
