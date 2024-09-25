@@ -14,13 +14,13 @@ namespace DiploMini.Models
         public List<int> AdjacentCountriesById { get; set; }
         public Army? OccupyingArmy { get; set; }
 
-        public Country(int id, string name, bool supplyPoint, List<int> countryId)
+        public Country(int id, string name, bool supplyPoint, List<int> countryId, Army occupyingArmy)
         {
-            Id = 0;
-            Name = "";
-            SupplyPoint = false;
-            AdjacentCountriesById = new List<int>();
-            OccupyingArmy = null;
+            Id = id;
+            Name = name;
+            SupplyPoint = supplyPoint;
+            AdjacentCountriesById = countryId;
+            OccupyingArmy = occupyingArmy;
 
         }
 
@@ -28,9 +28,9 @@ namespace DiploMini.Models
         {
             return new List<Country>()
             {
-                new Country(1, "TestCountry1", true, new List<int>(){1}),
-                new Country(2, "TestCountry2", true, new List<int>(){2,3}),
-                new Country(3, "TestCountry3", true, new List<int>(){2})
+                new Country(1,"TestCountry1", true, new List<int>(){1}, null),
+                new Country(2,"TestCountry2", true, new List<int>(){2,3}, null),
+                new Country(3,"TestCountry3", true, new List<int>(){2}, null)
             };
         }
     }

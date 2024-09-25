@@ -19,6 +19,11 @@ namespace DiploMini.Server.Endpoints
 
         static IResult GetUpdatedGameState([FromServices] IGameService gameService)
         {
+            List<Country> countryMap = gameService.GetUpdatedGameState();
+            if (countryMap == null)
+            {
+                return Results.NotFound();
+            }
             return Results.Ok(gameService.GetUpdatedGameState());
         }
 

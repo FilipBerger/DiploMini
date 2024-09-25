@@ -28,7 +28,7 @@ namespace DiploMini.Models
             test.Players = Player.GetTestPlayers();
             test.Map = Country.GetTestMap();
             test.IngameDate = "Spring 1901";
-            return new Game();
+            return test;
         }
     }
       
