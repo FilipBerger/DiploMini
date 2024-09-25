@@ -26,6 +26,12 @@ namespace DiploMini.Server
             {
                 var targetCountry = Game.Map.FirstOrDefault(c => c.Name == order.Target);
                 targetCountry.OccupyingArmy = new Army() { Id = 1, Owner = new Player() { Id = 1, FactionName = "TestFaction1", Color = FactionColors.Red, Defeated = false } };
+                if(order.Origin != order.Target)
+                {
+                    var originCountry = Game.Map.FirstOrDefault(c => c.Name == order.Origin);
+                    originCountry.OccupyingArmy = null;
+                }
+                
             }
         }
     }

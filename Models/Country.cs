@@ -28,7 +28,7 @@ namespace DiploMini.Models
         {
             return new List<Country>()
             {
-                new Country(1,"TestCountry1", true, new List<int>(){1}, null),
+                new Country(1,"TestCountry1", true, new List<int>(){1}, new Army() { Id = 1, Owner = new Player() { Id = 1, FactionName = "TestFaction1", Color = FactionColors.Red, Defeated = false } }),
                 new Country(2,"TestCountry2", true, new List<int>(){2,3}, null),
                 new Country(3,"TestCountry3", true, new List<int>(){2}, null)
             };
