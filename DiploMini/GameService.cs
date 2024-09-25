@@ -16,6 +16,10 @@ namespace DiploMini.Server
             
         }
 
+        public List<Country> GetUpdatedGameState()
+        {
+            return Game.Map;
+        }
         public void HandleMovement(List<Order> orders)
         {
             foreach (Order order in orders)
@@ -23,10 +27,6 @@ namespace DiploMini.Server
                 var targetCountry = Game.Map.FirstOrDefault(c => c.Name == order.Target);
                 targetCountry.OccupyingArmy = new Army() { Id = 1, Owner = new Player() { Id = 1, FactionName = "TestFaction1", Color = FactionColors.Red, Defeated = false } };
             }
-        }
-        public List<Country> GetUpdatedGameState()
-        {
-            throw new NotImplementedException();
         }
     }
 }

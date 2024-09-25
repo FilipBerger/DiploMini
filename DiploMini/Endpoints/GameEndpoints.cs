@@ -12,15 +12,14 @@ namespace DiploMini.Server.Endpoints
     {
         public static void MapGameEndpoints(this IEndpointRouteBuilder app)
         {
-            app.MapGet("/GetMap", GetMap);
+            app.MapGet("/GetMap", GetUpdatedGameState);
             app.MapPost("/PostOrders", MovementTestOrder);
             // Detailed documentation later?
         }
 
-        static IResult GetMap([FromServices] IGameService gameService)
+        static IResult GetUpdatedGameState([FromServices] IGameService gameService)
         {
-
-            return Results.Ok();
+            return Results.Ok(gameService.GetUpdatedGameState());
         }
 
         static IResult MovementTestOrder([FromServices] IGameService gameService, [FromBody] List<Order> orders)
