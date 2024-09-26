@@ -43,5 +43,21 @@ namespace DiploMini.Server
 
             }
         }
+
+        public void AddPlayersToGame(List<string> playerNames)
+        {
+            FactionColors[] factionColors = (FactionColors[])Enum.GetValues(typeof(FactionColors));
+
+            for (int i = 0; i < playerNames.Count; i++)
+            {
+                Game.Players.Add(new Player()
+                {
+                    Id = i + 1,
+                    FactionName = playerNames[i],
+                    Color = factionColors[i + 1],
+                    Defeated = false
+                });
+            }
+        }
     }
 }

@@ -20,6 +20,7 @@ namespace DiploMini.Server.Endpoints
 
             app.MapGet("/GetUpdatedGameState", GetUpdatedGameState);
             app.MapPost("/PostOrders", MovementTestOrder);
+            app.MapPost("/PostPlayers", PostPlayers);
             // Detailed documentation later?
         }
 
@@ -74,6 +75,20 @@ namespace DiploMini.Server.Endpoints
         {
             // Validate orders here, if valid, return OK, else return bad request.
             return Results.Ok();
+        }
+
+        static IResult PostPlayers([FromServices] IGameService gameService, [FromBody] List<string> playerNames)
+        {
+            if (Validator.ValidatePlayers(playerNames))
+            {
+                gameService.AddPlayersToGame(playerNames);
+                return TypedResults.Ok();
+            }
+            else
+            {
+                return TypedResults.BadRequest(new { message = "Player names are not unique or null or empty" });
+            }
+            
         }
     }
 }

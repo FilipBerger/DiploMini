@@ -36,5 +36,4 @@ namespace DiploMini.Models
             return test;
         }
     }
-      
 }
