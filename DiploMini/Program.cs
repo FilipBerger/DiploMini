@@ -10,6 +10,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") // Frontend URL
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddSingleton<IGameService, GameService>();
 
 var app = builder.Build();
@@ -22,6 +32,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowSpecificOrigins");
 
 app.MapGameEndpoints();
 
