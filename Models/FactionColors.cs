@@ -4,8 +4,12 @@
     {
         None,
         Red,
+        Orange,
+        Yellow,
         Green,
         Blue,
-        Yellow
+        Purple,
+        Pink
+
     }
 }

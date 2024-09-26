@@ -16,10 +16,10 @@ namespace DiploMini.Models
         public static List<Player> GetTestPlayers()
         {
             return new List<Player>()
-        {
-            new Player(){Id = 1, FactionName = "TestFaction1", Color = FactionColors.Red, Defeated = false},
-            new Player(){Id = 2, FactionName = "TestFaction2", Color = FactionColors.Green, Defeated = false},
-        };
+            {
+                new Player(){Id = 1, FactionName = "TestFaction1", Color = FactionColors.Red, Defeated = false},
+                new Player(){Id = 2, FactionName = "TestFaction2", Color = FactionColors.Green, Defeated = false},
+            };
         }
     }
 

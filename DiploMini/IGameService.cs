@@ -11,5 +11,6 @@ namespace DiploMini.Server
         List<Country> GetInitialMap();
         Game GetUpdatedGameState();
 
+        void AddPlayersToGame(List<string> playerNames);
     }
 }
