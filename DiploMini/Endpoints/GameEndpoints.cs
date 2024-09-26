@@ -82,11 +82,12 @@ namespace DiploMini.Server.Endpoints
             if (Validator.ValidatePlayers(playerNames))
             {
                 gameService.AddPlayersToGame(playerNames);
+                // Borde returnera game state
                 return TypedResults.Ok();
             }
             else
             {
-                return TypedResults.BadRequest(new { message = "Player names are not unique or null or empty" });
+                return TypedResults.BadRequest(new { message = "Player names are not unique or they are null or empty" });
             }
             
         }

@@ -6,6 +6,9 @@
         {
             HashSet<string> uniqueNames = new HashSet<string>();
 
+            if (playerNames.Count > 7)
+                return false;
+
             foreach (String name in playerNames)
             {
                 if (string.IsNullOrEmpty(name))
