@@ -56,13 +56,6 @@ namespace DiploMini.Server.Endpoints
             {
                 return TypedResults.NotFound();
             }
-
-            //List<Country> countryMap = gameService.GetUpdatedGameState();
-            //if (countryMap == null)
-            //{
-            //    return Results.NotFound();
-            //}
-            //return Results.Ok(gameService.GetUpdatedGameState());
         }
 
         static IResult MovementTestOrder([FromServices] IGameService gameService, [FromBody] List<Order> orders)
@@ -82,12 +75,14 @@ namespace DiploMini.Server.Endpoints
             if (Validator.ValidatePlayers(playerNames))
             {
                 gameService.AddPlayersToGame(playerNames);
-                // Borde returnera game state
+                // Borde returnera game state?
+                var game = gameService.GetUpdatedGameState();
+
                 return TypedResults.Ok();
             }
             else
             {
-                return TypedResults.BadRequest(new { message = "Player names are not unique or they are null or empty" });
+                return TypedResults.BadRequest(new { message = "Player names are not unique or they are null/empty" });
             }
             
         }

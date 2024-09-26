@@ -1,6 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-
 const SubmitButton = () => {
     const handleSubmit = async () => {
         const response = await fetch('https://localhost:7026/PostOrders', {
