@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import ArmyIcon from './assets/army_star_icon.svg'
+import ArmyIcon from '../../assets/army_star_icon.svg'
 
-const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupplyPoint, center, onMouseDown, onMouseUp, mouseIsDown, draggingCountryId }) => {
+const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupplyPoint, center, onMouseDown, onMouseUp, mouseIsDown, originCountry }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [countryColor, setCountryColor] = useState(fill);  // Country color state
 
   // Update the country color based on hover and dragging state
   useEffect(() => {
-    if (mouseIsDown && (isHovered || draggingCountryId === id)) {
+    if (mouseIsDown && (isHovered || originCountry.id === id)) {
       setCountryColor('#ccc');  // Light up color when hovered or dragged
     } else {
       setCountryColor(fill);  // Default color when not hovered or dragged
     }
-  }, [mouseIsDown, isHovered, draggingCountryId, fill, id]);
+  }, [mouseIsDown, isHovered, originCountry, fill, id]);
 
   // Handle mouse enter (hover)
   const handleMouseEnter = () => {
@@ -25,9 +25,6 @@ const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupp
   const handleMouseLeave = () => {
     setIsHovered(false);  // Reset hover state
   };
-
-
-  
 
   return (
     <>
@@ -55,9 +52,6 @@ const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupp
           width="20"          // Adjust the size of the army icon
           height="20"
         />
-        // <text x={center[0] + 15} y={center[1] + 14} textAnchor="middle" fill="red">
-        //   {occupyingArmy}
-        // </text>
       )}
 
       {/* Supply Point Marker (if applicable) */}

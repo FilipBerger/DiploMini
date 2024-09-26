@@ -1,5 +1,5 @@
 import './App.css'
-import Map from './Map.jsx';
+import Map from './Components/Map/Map.jsx';
 import SubmitButton from './Components/Buttons/Buttons.jsx'
 import Game from './Components/Game/Game.jsx'
 
