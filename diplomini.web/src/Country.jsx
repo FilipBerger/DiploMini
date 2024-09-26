@@ -1,18 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ArmyIcon from './assets/army_star_icon.svg'
 
-const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupplyPoint, center }) => {
-  console.log(isSupplyPoint);
+const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupplyPoint, center, onMouseDown, onMouseUp, mouseIsDown, draggingCountryId }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const [countryColor, setCountryColor] = useState(fill);  // Country color state
+
+  // Update the country color based on hover and dragging state
+  useEffect(() => {
+    if (mouseIsDown && (isHovered || draggingCountryId === id)) {
+      setCountryColor('#ccc');  // Light up color when hovered or dragged
+    } else {
+      setCountryColor(fill);  // Default color when not hovered or dragged
+    }
+  }, [mouseIsDown, isHovered, draggingCountryId, fill, id]);
+
+  // Handle mouse enter (hover)
+  const handleMouseEnter = () => {
+    if (mouseIsDown) {
+      setIsHovered(true);  // Only highlight if the mouse button is down
+    }
+  };
+
+  // Handle mouse leave
+  const handleMouseLeave = () => {
+    setIsHovered(false);  // Reset hover state
+  };
+
+
   
 
   return (
     <>
       <path
         d={d}
-        fill={fill}
+        fill={countryColor}
         stroke={stroke}
         strokeWidth={strokeWidth}
         id={id}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
       />    
 
       <text x={center[0]} y={center[1] - 5 } textAnchor="middle" fill="white">

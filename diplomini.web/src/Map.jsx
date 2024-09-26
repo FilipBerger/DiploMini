@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Country from './Country';
+import SelectOrderTypeDialog from './SelectOrderTypeDialog';
 
 const Map = () => {
   // The path data for each "country" shape
-  const countries = [
+  const [countries, setCountries] = useState([
     {
       id: "svg_1",
       d: "m72,170l-33,-18l-20,-58l36,-38l28,29l56,-17l35,45l-34,51l-68,6z",
@@ -84,25 +85,74 @@ const Map = () => {
       fill: "#999999",
       stroke: "#000000",
     }
-  ];
+  ]);
+
+  const [mouseIsDown, setMouseIsDown] = useState(false);
+  const [draggingArmy, setDraggingArmy] = useState(null); // Track the army being dragged
+  const [draggingCountryId, setDraggingCountryId] = useState(null);  // Track the source country being dragged from
+  const [showDialog, setShowDialog] = useState(false);
+
+
+  const handleMouseDown = (country) => {
+    console.log(country.id);
+    setDraggingCountryId(country.id);
+    if (country.occupyingArmy) {
+      setMouseIsDown(true);
+      setDraggingArmy(country.occupyingArmy);  // Start dragging the army
+      // console.log(country.occupyingArmy);
+    }
+  };
+
+  // Handle the drop onto another country
+  const handleMouseUp = (targetCountryId) => {
+    if (draggingArmy) {
+      console.log(draggingArmy);
+      console.log(targetCountryId);
+      setShowDialog(true);
+
+      //create order type dialog
+      //default orders should be created already for every army. 
+      //Adjust army orders based on dialog.
+
+      setDraggingArmy(null);  // Reset the dragging state
+    }
+    setMouseIsDown(false);
+  };
+
+  const handleSelectOption = (option) => {
+    console.log(option);
+    setShowDialog(false);
+  };
 
   return (
-    <svg width="430" height="380" xmlns="http://www.w3.org/2000/svg">
-      {countries.map((country) => (
-        <Country
-          key={country.id}
-          id={country.id}
-          d={country.d}
-          center={country.center}
-          name={country.name}
-          isSupplyPoint={country.isSupplyPoint}
-          occupyingArmy={country.occupyingArmy}
-          fill={country.fill}
-          stroke={country.stroke}
-          strokeWidth={country.strokeWidth}
+    <>
+      {showDialog && (
+        <SelectOrderTypeDialog 
+        onSelectOption={handleSelectOption}
         />
-      ))}
-    </svg>
+      )}
+      <svg width="430" height="380" xmlns="http://www.w3.org/2000/svg">
+        {countries.map((country) => (
+          <Country
+            key={country.id}
+            id={country.id}
+            d={country.d}
+            center={country.center}
+            name={country.name}
+            isSupplyPoint={country.isSupplyPoint}
+            occupyingArmy={country.occupyingArmy}
+            fill={country.fill}
+            stroke={country.stroke}
+            strokeWidth={country.strokeWidth}
+            mouseIsDown={mouseIsDown}
+            onMouseDown={() => handleMouseDown(country)}
+            onMouseUp={() => handleMouseUp(country.id)}
+            draggingCountryId={draggingCountryId}
+          />
+        ))}
+      </svg>    
+    </>
+
   );
 };
 
