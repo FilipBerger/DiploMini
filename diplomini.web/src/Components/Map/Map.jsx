@@ -1,5 +1,4 @@
-import React from 'react';
-import Country from './Country';
+import Country from '../Country/Country.jsx';
 
 const Map = () => {
   // The path data for each "country" shape
