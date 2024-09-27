@@ -8,7 +8,7 @@ const SelectOrderDialog = (
   },
   {
     id: 2,
-    name: "Bumbibörnarna",
+    name: "Bumbibjörnarna",
     color: "green"
   }]
 

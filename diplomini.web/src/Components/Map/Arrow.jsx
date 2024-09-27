@@ -6,7 +6,7 @@ const Arrow = ({ start, end, color }) => {
   console.log(color + " faktion");
   if (color === "Dödspatrullen")
     strokeColor = "red";
-  else
+  if (color === "Bumbibjörnarna")
     strokeColor = "green";
   
   return (

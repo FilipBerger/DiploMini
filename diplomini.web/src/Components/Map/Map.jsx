@@ -23,9 +23,9 @@ const Map = () => {
   };
 
   const handleMouseUp = (targetCountry) => {  //"Drop" the army on a different country.
-    if (draggingArmy && //Ensure that we drag to an adjacent country
+    if (draggingArmy //&& //Ensure that we drag to an adjacent country
       // originCountry.AdjacentCountries.filter(c => c === targetCountry.id) ||
-      (originCountry.id != targetCountry.id)
+      // (originCountry.id != targetCountry.id)
       ) {
       setTargetCountry(targetCountry);
       setShowDialog(true);
@@ -33,7 +33,7 @@ const Map = () => {
     setMouseIsDown(false);
   };
 
-  const handleMouseUp2 = () => {  //"Drop" the army on a different country.
+  const handleMouseUp2 = () => {  //"Drop" the army outside map
     console.log("triggered");
     setMouseIsDown(false);
   };
@@ -79,7 +79,7 @@ const Map = () => {
             orient="auto"
             markerUnits="strokeWidth"
           >
-            <polygon points="0 0, 10 3.5, 0 7" fill="black" />
+            <polygon points="0 0, 5 3, 0 6" fill="black" />
           </marker>
         </defs>
 
@@ -107,8 +107,7 @@ const Map = () => {
         {updatedOrders.map((order) => {
         const originCountry = countries.find(c => c.id === order.Origin);
         const targetCountry = countries.find(c => c.id === order.Target);
-        if (!originCountry || !targetCountry ) return null; // Skip if countries not found or same country
-        // || originCountry === targetCountry
+        if (!originCountry || !targetCountry || originCountry === targetCountry) return null; // Skip if countries not found or same country
 
         return (
           <Arrow
