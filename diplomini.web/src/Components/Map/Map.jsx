@@ -1,6 +1,8 @@
 import Country from '../Country/Country.jsx';
 
-const Map = () => {
+const Map = ( props ) => {
+
+  console.log(props)
   // The path data for each "country" shape
   const countries = [
     {
@@ -8,10 +10,10 @@ const Map = () => {
       d: "m72,170l-33,-18l-20,-58l36,-38l28,29l56,-17l35,45l-34,51l-68,6z",
       fill: "#999999",
       stroke: "#000000",
-      name: "Country A",
+      name: "CountryA",
       center: [100, 120],  // Example center point
       isSupplyPoint: false,  // No supply point
-      occupyingArmy: "Army X"
+      occupyingArmy: props.mapData[0].armyId
     },
     {
       id: "svg_2",
@@ -21,7 +23,7 @@ const Map = () => {
       name: "Country B",
       center: [170, 190],  // Example center point
       isSupplyPoint: true,  // This country has a supply point
-      occupyingArmy: "Army Y"
+      occupyingArmy: props.mapData[1].armyId
     },
     {
       id: "svg_3",
@@ -31,7 +33,7 @@ const Map = () => {
       name: "Country C",
       center: [240, 70],  // Example center point
       isSupplyPoint: false,  // No supply point
-      occupyingArmy: "Army Z"
+      occupyingArmy: props.mapData[2].armyId
     },
     {
       id: "svg_4",
@@ -41,7 +43,7 @@ const Map = () => {
       name: "Country D",
       center: [340, 130],  // Example center point
       isSupplyPoint: false,
-      occupyingArmy: "Army W"
+      occupyingArmy: props.mapData[3].armyId
     },
     {
       id: "svg_5",
@@ -51,7 +53,7 @@ const Map = () => {
       name: "Country E",
       center: [60, 250],  // Example center point
       isSupplyPoint: false,
-      occupyingArmy: null  // No occupying army
+      occupyingArmy: props.mapData[4].armyId  // No occupying army
     },
     {
       id: "svg_6",
@@ -61,7 +63,7 @@ const Map = () => {
       name: "Country F",
       center: [180, 310],  // Example center point
       isSupplyPoint: true,  // This country has a supply point
-      occupyingArmy: "Army Q"
+      occupyingArmy: props.mapData[5].armyId
     },
     {
       id: "svg_8",
@@ -71,7 +73,7 @@ const Map = () => {
       name: "Country G",
       center: [350, 230],  // Example center point
       isSupplyPoint: false,
-      occupyingArmy: "Army B"
+      occupyingArmy: props.mapData[6].armyId
     },
     {
       id: "svg_9",
@@ -79,7 +81,7 @@ const Map = () => {
       center: [330, 320],  // Center point for Småland
       name: "Småland",
       isSupplyPoint: true,  // Småland is a supply point
-      occupyingArmy: "Army 11",  // Assuming occupyingArmy is represented as "Army 11"
+      occupyingArmy: props.mapData[7].armyId,  // Assuming occupyingArmy is represented as "Army 11"
       fill: "#999999",
       stroke: "#000000",
     }

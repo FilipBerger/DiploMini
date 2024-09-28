@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ArmyIcon from '../../assets/army_star_icon.svg'
 
 const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupplyPoint, center }) => {
-  console.log(isSupplyPoint);
+  //console.log(isSupplyPoint);
 
 
   return (
