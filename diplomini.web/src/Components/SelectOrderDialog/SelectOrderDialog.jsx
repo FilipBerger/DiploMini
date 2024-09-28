@@ -1,23 +1,23 @@
 const SelectOrderDialog = (
-  {onSelectOption}
+  {onSelectOption, players}
 ) => {
-  const players = [{
-    id: 1,
-    name: "Dödspatrullen",
-    color: "red"
-  },
-  {
-    id: 2,
-    name: "Bumbibjörnarna",
-    color: "green"
-  }]
+  // const players = [{
+  //   id: 1,
+  //   name: "Dödspatrullen",
+  //   color: "red"
+  // },
+  // {
+  //   id: 2,
+  //   name: "Bumbibjörnarna",
+  //   color: "green"
+  // }]
 
   const options = [
     { Description: 'Move/Attack', Support: null, Color: null },
     ...players.map((player) => ({
-      Description: `Support ${player.name}`,
-      Support: player.name,
-      Color: player.color,
+      Description: `Support ${player.FactionName}`,
+      Support: player.FactionName,
+      Color: player.Color,
     })),
   ];
 

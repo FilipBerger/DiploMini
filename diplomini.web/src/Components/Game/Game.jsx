@@ -8,6 +8,7 @@ const Game = () => {
 
             const response = await fetch('https://localhost:7026/GetUpdatedGameState')
             const data = await response.json()
+            console.log(data);
             setGameState(data)
         }
         fetchGameState()
