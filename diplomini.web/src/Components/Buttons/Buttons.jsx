@@ -8,14 +8,14 @@ const SubmitButton = () => {
             body: JSON.stringify(
             [
   {
-    "armyId": 0,
+    "armyId": 1,
     "faction": "string",
-    "ownerId": 0,
+    "ownerId": 1,
     "contest": true,
     "support": true,
     "assistFaction": "string",
-    "target": "TestCountry3",
-    "origin": "TestCountry1"
+    "target": "CountryA",
+    "origin": "CountryB"
   }
 ],
             ),
