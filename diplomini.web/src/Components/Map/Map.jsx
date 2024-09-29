@@ -18,18 +18,20 @@ const Map = ( props ) => {
 
 
   const handleMouseDown = (country) => {  //Start dragging army to another country
-    console.log(country)
+    //console.log(country)
     setOriginCountry(country);
     if (country.occupyingArmy) {
       setMouseIsDown(true);
       setDraggingArmy(country.occupyingArmy);
       setAdjacentCountries(country.adjacentCountriesById);
+      //console.log("AdjecentCountriesById: ", country.adjacentCountriesById)
+      
     }
   };
 
   const handleMouseUp = (targetCountry) => {  //"Drop" the army on a different country.
     if (draggingArmy && targetCountry &&
-      adjacentCountries.includes(Number(targetCountry.id))//Ensure that we drag to an adjacent country
+      adjacentCountries.includes(Number(targetCountry.countryId))//Ensure that we drag to an adjacent country
       // originCountry.AdjacentCountries.filter(c => c === targetCountry.id) ||
       // (originCountry.id != targetCountry.id)
       ) {
@@ -49,12 +51,12 @@ const Map = ( props ) => {
           Contest: orderOption === null,
           Support: orderOption != null,
           AssistFaction: orderOption,
-          Target: targetCountry.id,
-          Origin: originCountry.id
+          Target: targetCountry.countryId,
+          Origin: originCountry.countryId
         } : o
       );
       setUpdatedOrders(newOrders)
-      console.log(updatedOrders);
+      //console.log(updatedOrders);
     }
     setDraggingArmy(null);  // Reset the dragging state
   };
@@ -74,7 +76,7 @@ const Map = ( props ) => {
         {props.mapData.map((country) => (
           <Country
             key={country.countryId}
-            id={country.id}
+            id={country.countryId}
             d={country.d}
             center={country.center}
             name={country.name}
@@ -84,10 +86,11 @@ const Map = ( props ) => {
             stroke={country.stroke}
             strokeWidth={country.strokeWidth}
             mouseIsDown={mouseIsDown}
+            isAdjacent={adjacentCountries}
             onMouseDown={() => handleMouseDown(country)}
             onMouseUp={() => handleMouseUp(country)}
             originCountry={originCountry}
-            isAdjacent={adjacentCountries}
+            
           />
         ))}
 
@@ -96,9 +99,9 @@ const Map = ( props ) => {
         return (
           <Arrow
             key={order.ArmyId}
-            start={countries.find(c => c.id === order.Origin)}
-            end={countries.find(c => c.id === order.Target)}
-            color={players.find(p => p.FactionName === order.AssistFaction)?.Color}
+            start={countries.find(c => c.countryId === order.Origin)}
+            end={countries.find(c => c.countryId === order.Target)}
+            color={props.playerData.find(p => p.FactionName === order.AssistFaction)?.Color}
           />
           );
         })}

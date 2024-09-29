@@ -10,7 +10,7 @@ namespace DiploMini.Models
     {
         public int CountryId { get; set; }
         public string Name { get; set; }
-        public bool SupplyPoint { get; set; }
+        public bool IsSupplyPoint { get; set; }
         public int? OwnerId { get; set; }
         public List<int> AdjacentCountriesById { get; set; }
         public Army? OccupyingArmy { get; set; }
@@ -22,7 +22,7 @@ namespace DiploMini.Models
 
         public Country(int countryId, 
             string name, 
-            bool supplyPoint, 
+            bool isSupplyPoint, 
             int ownerId, 
             List<int> adjacentCountriesById, 
             Army occupyingArmy,
@@ -33,7 +33,7 @@ namespace DiploMini.Models
         {
             CountryId = countryId;
             Name = name;
-            SupplyPoint = supplyPoint;
+            IsSupplyPoint = isSupplyPoint;
             OwnerId = ownerId;
             AdjacentCountriesById = adjacentCountriesById;
             OccupyingArmy = occupyingArmy;
