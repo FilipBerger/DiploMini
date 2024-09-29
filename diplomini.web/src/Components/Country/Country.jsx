@@ -1,28 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import ArmyIcon from '../../assets/army_star_icon.svg'
 
-const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupplyPoint, center, onMouseDown, onMouseUp, mouseIsDown, originCountry }) => {
+const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupplyPoint, center, onMouseDown, onMouseUp, mouseIsDown, originCountry, isAdjacent  }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [countryColor, setCountryColor] = useState(fill);  // Country color state
+  const [strokeColor, setStrokeColor] = useState(fill);
+
+  const lightenHSLColor = (hslColor, percent) => {
+    // Extract the H, S, and L values from the HSL string
+    const hslRegex = /hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/;
+    const match = hslColor.match(hslRegex);
+  
+    if (match) {
+      const hue = match[1];
+      const saturation = match[2];
+      let lightness = parseFloat(match[3]);
+  
+      // Adjust the lightness by the percentage provided
+      lightness = Math.min(100, Math.max(0, lightness + percent));
+  
+      // Return the new HSL color string with adjusted lightness
+      return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+    }
+    return hslColor; // Return original if no match
+  };
 
   // Update the country color based on hover and dragging state
   useEffect(() => {
-    if (mouseIsDown && (isHovered || originCountry.id === id)) {
-      setCountryColor('#ccc');  // Light up color when hovered or dragged
-    } else {
-      setCountryColor(fill);  // Default color when not hovered or dragged
-    }
-  }, [mouseIsDown, isHovered, originCountry, fill, id]);
 
-  // Handle mouse enter (hover)
-  const handleMouseEnter = () => {
+    if (mouseIsDown && (isAdjacent.includes(Number(id)) || originCountry.id === id)) {
+      setCountryColor(lightenHSLColor(fill, 10));  // Lighten adjacent country color
+      setStrokeColor(fill);
+      if (isHovered || originCountry.id === id) {
+        setCountryColor(lightenHSLColor(fill, 20));  // Lighten adjacent country color
+        setStrokeColor("black");
+      };
+    }
+    if (!mouseIsDown) {
+      setCountryColor(fill);  // Default color when not hovered or dragged
+      setStrokeColor(fill);
+    }
+  }, [mouseIsDown, isHovered, isAdjacent, originCountry, fill, id]);
+
+  const handleMouseEnter = () => {  // Handle mouse enter (hover)
     if (mouseIsDown) {
       setIsHovered(true);  // Only highlight if the mouse button is down
     }
   };
 
-  // Handle mouse leave
-  const handleMouseLeave = () => {
+  const handleMouseLeave = () => { // Handle mouse leave
     setIsHovered(false);  // Reset hover state
   };
 
@@ -31,7 +57,7 @@ const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupp
       <path
         d={d}
         fill={countryColor}
-        stroke={stroke}
+        stroke={strokeColor}
         strokeWidth={strokeWidth}
         id={id}
         onMouseEnter={handleMouseEnter}

@@ -1,23 +1,31 @@
 import { useState, useEffect } from "react"
+import Buttons from "../Buttons/Buttons.jsx"
+import Map from "../Map/Map.jsx"
+import { fetchGameState } from "../../api.js"
 
 const Game = () => {
-    const [gameState , setGameState] = useState()
+    const [gameState , setGameState] = useState(null)
 
-    useEffect(() => {
-        const fetchGameState = async () => {
-
-            const response = await fetch('https://localhost:7026/GetUpdatedGameState')
-            const data = await response.json()
+    const updateGameState = async () => {
+        try {
+            const data = await fetchGameState()
             setGameState(data)
         }
-        fetchGameState()
-        
+        catch 
+        {
+            console.error("Error loading game state")
+        }
+    }
+    useEffect(() => {
+        updateGameState()
       }, [])
     return (
         
         <div>
-            {/* test to see if GetUpdatedGameState works as intended */}
             {gameState ? <p>Date: {gameState.ingameDate}</p> : <p>Loading...</p>}
+            <Buttons />
+            {gameState ?  (<Map mapData={gameState.map} />) : <p>Loading...</p>}
+            <button onClick={updateGameState} >Update Game State</button>
         </div>
     )
 }
