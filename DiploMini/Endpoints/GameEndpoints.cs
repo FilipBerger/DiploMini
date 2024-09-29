@@ -13,6 +13,7 @@ namespace DiploMini.Server.Endpoints
     {
         public static void MapGameEndpoints(this IEndpointRouteBuilder app)
         {
+            app.MapGet("GetInitialGameState", GetInitialGameState);
             app.MapGet("/GetInitialMap", GetInitialMap)
                 .WithOpenApi()
                 .WithSummary("Provides map with starting country values")
@@ -37,9 +38,14 @@ namespace DiploMini.Server.Endpoints
             return TypedResults.Ok(response);
         }
 
+        static IResult GetInitialGameState([FromServices] IGameService gameService)
+        {
+            return TypedResults.Ok(gameService.GetGameState());
+        }
+
         static IResult GetUpdatedGameState([FromServices] IGameService gameService)
         {
-            var game = gameService.GetUpdatedGameState();
+            var game = gameService.GetGameState();
             if (!game.UpdateReady)
                 return TypedResults.NotFound();
             try {
@@ -48,7 +54,7 @@ namespace DiploMini.Server.Endpoints
                     .Select(o => new ShortCountryResponse(o.CountryId, o.OwnerId, o.OccupyingArmy?.Id))
                     .ToList();
 
-                var gameStateResponse = new GameStateResponse(game.Id, game.IngameDate, players, map, game.History);
+                var gameStateResponse = new GameStateResponse(game.GameId, game.IngameDate, players, map, game.History);
 
                 return TypedResults.Ok(gameStateResponse);
             }
@@ -76,7 +82,7 @@ namespace DiploMini.Server.Endpoints
             {
                 gameService.AddPlayersToGame(playerNames);
                 // Borde returnera game state?
-                var game = gameService.GetUpdatedGameState();
+                var game = gameService.GetGameState();
 
                 return TypedResults.Ok();
             }

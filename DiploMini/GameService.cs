@@ -21,7 +21,7 @@ namespace DiploMini.Server
             return Game.Map;
         }
 
-        public Game GetUpdatedGameState()
+        public Game GetGameState()
         {
             return Game;
             //return Game.Map;

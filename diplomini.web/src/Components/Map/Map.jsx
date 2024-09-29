@@ -6,7 +6,7 @@ import orders from './orderFactory';
 import players from '../Game/mockPlayers';
 import Arrow from './Arrow';
 
-const Map = () => {
+const Map = ( props ) => {
 
   const [mouseIsDown, setMouseIsDown] = useState(false);
   const [draggingArmy, setDraggingArmy] = useState(null); // Track the army being dragged
@@ -63,14 +63,15 @@ const Map = () => {
       {showDialog && (
         <SelectOrderDialog 
         onSelectOption={handleSelectOption}
-        players={players}
+        players={props.playerData}
         />
       )}
       <svg width="430" height="380" xmlns="http://www.w3.org/2000/svg" onMouseUp={() => handleMouseUp()} 
             style={{ minWidth: '100%' }}>
 
         {/* Render Countries */}
-        {countries.map((country) => (
+        {/* Här ska den inte utgå från mockCountries utan från countries som skickas från servern och kommer med props */}
+        {props.mapData.map((country) => (
           <Country
             key={country.id}
             id={country.id}
