@@ -18,6 +18,7 @@ const Map = ( props ) => {
 
 
   const handleMouseDown = (country) => {  //Start dragging army to another country
+    console.log(country)
     setOriginCountry(country);
     if (country.occupyingArmy) {
       setMouseIsDown(true);
@@ -70,10 +71,9 @@ const Map = ( props ) => {
             style={{ minWidth: '100%' }}>
 
         {/* Render Countries */}
-        {/* Här ska den inte utgå från mockCountries utan från countries som skickas från servern och kommer med props */}
         {props.mapData.map((country) => (
           <Country
-            key={country.id}
+            key={country.countryId}
             id={country.id}
             d={country.d}
             center={country.center}

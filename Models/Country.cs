@@ -17,6 +17,7 @@ namespace DiploMini.Models
         public string D {  get; set; }
         public string Fill { get; set; }
         public string Stroke { get; set; }
+        public List<int> Center { get; set; }
 
 
         public Country(int countryId, 
@@ -27,7 +28,8 @@ namespace DiploMini.Models
             Army occupyingArmy,
             string d,
             string fill,
-            string stroke)
+            string stroke,
+            List<int> center)
         {
             CountryId = countryId;
             Name = name;
@@ -38,6 +40,7 @@ namespace DiploMini.Models
             D = d;
             Fill = fill;
             Stroke = stroke;
+            Center = center;
         }
 
         public static List<Country> GetTestMap()
@@ -52,7 +55,8 @@ namespace DiploMini.Models
                 new Army() {Id = 11, OwnerId = 1}, 
                 "m72,170l-33,-18l-20,-58l36,-38l28,29l56,-17l35,45l-34,51l-68,6z", 
                 "hsl(99, 43%, 30%)", 
-                "#000000"),
+                "#000000",
+                new List<int>(){ 100, 120 }),
 
                 new Country(12,
                 "CountryB", 
@@ -62,8 +66,8 @@ namespace DiploMini.Models
                 null,
                 "m90,187l65,-6l36,-60l49,-2l42,65l-82,10l-68,49l-40,-25l-2,-31z",
                 "hsl(0, 0%, 66%)",
-                "#000000"
-                ),
+                "#000000",
+                new List<int>(){ 170, 190 }),
 
                 new Country(13,
                 "CountryC", 
@@ -73,7 +77,8 @@ namespace DiploMini.Models
                 new Army() {Id = 8, OwnerId = 1},
                 "m194,102l-32,-36l70,-40l95,28l-15,47l-47,22l-20,-24l-51,3z",
                 "hsl(99, 43%, 30%)",
-                "#000000"),
+                "#000000",
+                new List<int>() { 240, 70 }),
                 
                 new Country(14, 
                 "CountryD", 
@@ -83,7 +88,8 @@ namespace DiploMini.Models
                 new Army() {Id = 15, OwnerId = 2},
                 "m276,139l51,-23l14,-48l47,26l14,67l-38,20l-69,-2l-19,-40z",
                 "hsl(278, 70%, 30%)",
-                "#000000"),
+                "#000000", 
+                new List < int >() { 340, 130 }),
                 
                 new Country(15,
                 "CountryE", 
@@ -93,7 +99,8 @@ namespace DiploMini.Models
                 null,
                 "m74,185l-37,-16l-21,59l27,77l44,13l45,-57l-60,-34l2,-42z",
                 "hsl(0, 0%, 66%)",
-                "#000000"),
+                "#000000",
+                new List < int >() { 60, 250 }),
                 
                 new Country(16,
                 "CountryF", 
@@ -103,7 +110,8 @@ namespace DiploMini.Models
                 new Army() {Id = 16, OwnerId = 2},
                 "m104,326l45,-56l26,35l54,0l24,-19l27,15l-62,44l-114,-19z",
                 "hsl(278, 70%, 30%)",
-                "#000000"),
+                "#000000",
+                new List < int >() { 180, 310 }),
                 
                 new Country(17,
                 "CountryG", 
@@ -113,7 +121,8 @@ namespace DiploMini.Models
                 null,
                 "m267,272l35,-39l10,-39l58,-1l24,-4l18,70c0,0 -51,6 -52,6c-1,0 -71,25 -71,25c0,0 -22,-18 -22,-18z",
                 "hsl(278, 70%, 30%)",
-                "#000000"),
+                "#000000",
+                new List < int >() { 350, 230 }),
                 
                 new Country(18,
                 "Småland", 
@@ -123,7 +132,8 @@ namespace DiploMini.Models
                 new Army() {Id = 3, OwnerId = 2},
                 "m256,338l43,-37l62,-22l30,-4l-20,52c0,0 -35,17 -37,19c-2,2 -61,10 -62,10c-1,0 -16,-18 -16,-18z",
                 "hsl(278, 70%, 30%)",
-                "#000000"),
+                "#000000",
+                new List < int >() { 330, 320 }),
             };
         }
     }
