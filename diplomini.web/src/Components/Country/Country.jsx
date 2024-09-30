@@ -6,6 +6,7 @@ const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupp
   const [countryColor, setCountryColor] = useState(fill);  // Country color state
   const [strokeColor, setStrokeColor] = useState(fill);
 
+  //console.log(isAdjacent);
   const lightenHSLColor = (hslColor, percent) => {
     // Extract the H, S, and L values from the HSL string
     const hslRegex = /hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/;
@@ -28,10 +29,11 @@ const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupp
   // Update the country color based on hover and dragging state
   useEffect(() => {
 
-    if (mouseIsDown && (isAdjacent.includes(Number(id)) || originCountry.id === id)) {
+    //console.log(isAdjacent, id, originCountry)
+    if (mouseIsDown && (isAdjacent.includes(Number(id)) || originCountry.countryId === id)) {
       setCountryColor(lightenHSLColor(fill, 10));  // Lighten adjacent country color
       setStrokeColor(fill);
-      if (isHovered || originCountry.id === id) {
+      if (isHovered || originCountry.countryId === id) {
         setCountryColor(lightenHSLColor(fill, 20));  // Lighten adjacent country color
         setStrokeColor("black");
       };

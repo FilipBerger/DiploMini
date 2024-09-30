@@ -9,6 +9,7 @@ namespace DiploMini.Server
         void SubmitOrders(List<Order> order);
         void HandleMovement(List<Order> orders);
         List<Country> GetInitialMap();
+
         Game GetGameState();
 
         void AddPlayersToGame(List<string> playerNames);

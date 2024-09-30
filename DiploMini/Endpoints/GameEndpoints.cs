@@ -13,6 +13,7 @@ namespace DiploMini.Server.Endpoints
     {
         public static void MapGameEndpoints(this IEndpointRouteBuilder app)
         {
+            app.MapGet("GetInitialGameState", GetInitialGameState);
             app.MapGet("/GetInitialMap", GetInitialMap)
                 .WithOpenApi()
                 .WithSummary("Provides map with starting country values")
@@ -35,6 +36,11 @@ namespace DiploMini.Server.Endpoints
             if (response == null || response.Countries.Count == 0)
                 return TypedResults.NotFound();
             return TypedResults.Ok(response);
+        }
+
+        static IResult GetInitialGameState([FromServices] IGameService gameService)
+        {
+            return TypedResults.Ok(gameService.GetGameState());
         }
 
         static IResult GetUpdatedGameState([FromServices] IGameService gameService)
