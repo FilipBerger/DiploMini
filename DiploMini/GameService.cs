@@ -13,7 +13,20 @@ namespace DiploMini.Server
 
         public void SubmitOrders(List<Order> orders)
         {
-            
+            if (Game.Orders == null)
+                Game.Orders = orders;
+            else
+                Game.Orders.AddRange(orders);
+            var player = Game.Players.Where(p => p.Id == orders[0].OwnerId).FirstOrDefault();
+            player.SubmittedOrders = true;
+
+            if (Game.Players
+                .Where(p => !p.Defeated)
+                .All(p => p.SubmittedOrders))
+            {
+                HandleMovement(orders);
+                Game.UpdateReady = true;
+            }
         }
 
         public List<Country> GetInitialMap()
@@ -21,7 +34,7 @@ namespace DiploMini.Server
             return Game.Map;
         }
 
-        public Game GetUpdatedGameState()
+        public Game GetGameState()
         {
             return Game;
             //return Game.Map;

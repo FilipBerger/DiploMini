@@ -14,7 +14,7 @@ namespace DiploMini.Models
         public bool Contest { get; set; }
         public bool Support { get; set; }
         public string? AssistFaction { get; set; }
-        public string Target { get; set; }
-        public string Origin { get; set; }
+        public int Target { get; set; }
+        public int Origin { get; set; }
     }
 }

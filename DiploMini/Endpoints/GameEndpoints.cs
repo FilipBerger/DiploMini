@@ -19,7 +19,7 @@ namespace DiploMini.Server.Endpoints
                 .WithDescription("Informs on where to draw supply points and adjacent countries, as well as the board setup in terms of ownership and army placement.");
 
             app.MapGet("/GetUpdatedGameState", GetUpdatedGameState);
-            app.MapPost("/PostOrders", MovementTestOrder);
+            app.MapPost("/PostOrders", SubmitOrders);
             app.MapPost("/PostPlayers", PostPlayers);
             // Detailed documentation later?
         }
@@ -39,7 +39,7 @@ namespace DiploMini.Server.Endpoints
 
         static IResult GetUpdatedGameState([FromServices] IGameService gameService)
         {
-            var game = gameService.GetUpdatedGameState();
+            var game = gameService.GetGameState();
             if (!game.UpdateReady)
                 return TypedResults.NotFound();
             try {
@@ -48,7 +48,7 @@ namespace DiploMini.Server.Endpoints
                     .Select(o => new ShortCountryResponse(o.CountryId, o.OwnerId, o.OccupyingArmy?.Id))
                     .ToList();
 
-                var gameStateResponse = new GameStateResponse(game.Id, game.IngameDate, players, map, game.History);
+                var gameStateResponse = new GameStateResponse(game.GameId, game.IngameDate, players, map, game.History);
 
                 return TypedResults.Ok(gameStateResponse);
             }
@@ -58,9 +58,9 @@ namespace DiploMini.Server.Endpoints
             }
         }
 
-        static IResult MovementTestOrder([FromServices] IGameService gameService, [FromBody] List<Order> orders)
+        static IResult SubmitOrders([FromServices] IGameService gameService, [FromBody] List<Order> orders)
         {
-            gameService.HandleMovement(orders);
+            gameService.SubmitOrders(orders);
             return Results.Ok();
         }
 
@@ -76,7 +76,7 @@ namespace DiploMini.Server.Endpoints
             {
                 gameService.AddPlayersToGame(playerNames);
                 // Borde returnera game state?
-                var game = gameService.GetUpdatedGameState();
+                var game = gameService.GetGameState();
 
                 return TypedResults.Ok();
             }
