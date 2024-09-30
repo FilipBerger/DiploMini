@@ -14,26 +14,23 @@ const Map = ( props ) => {
   const [adjacentCountries, setAdjacentCountries] = useState([]); // New state for adjacent countries
   const [showDialog, setShowDialog] = useState(false);
   const [targetCountry, setTargetCountry] = useState(null);
-  const [updatedOrders, setUpdatedOrders] = useState(orders);
+  const [updatedOrders, setUpdatedOrders] = useState(orders.filter(o => o.OwnerId === props.currentPlayerId));
+
 
 
   const handleMouseDown = (country) => {  //Start dragging army to another country
-    //console.log(country)
-    setOriginCountry(country);
-    if (country.occupyingArmy) {
+    
+    if (country?.occupyingArmy?.ownerId === props.currentPlayerId) {
+      setOriginCountry(country);
       setMouseIsDown(true);
       setDraggingArmy(country.occupyingArmy);
       setAdjacentCountries(country.adjacentCountriesById);
-      //console.log("AdjecentCountriesById: ", country.adjacentCountriesById)
-      
     }
   };
 
   const handleMouseUp = (targetCountry) => {  //"Drop" the army on a different country.
     if (draggingArmy && targetCountry &&
       adjacentCountries.includes(Number(targetCountry.countryId))//Ensure that we drag to an adjacent country
-      // originCountry.AdjacentCountries.filter(c => c === targetCountry.id) ||
-      // (originCountry.id != targetCountry.id)
       ) {
       setTargetCountry(targetCountry);
       setShowDialog(true);
@@ -46,7 +43,7 @@ const Map = ( props ) => {
     setShowDialog(false);
     if (orderOption !== false) {
       const newOrders = updatedOrders.map(o => 
-        o.ArmyId === draggingArmy.Id ? {
+        o.ArmyId === draggingArmy.id ? {
           ...o,
           Contest: orderOption === null,
           Support: orderOption != null,
@@ -56,7 +53,6 @@ const Map = ( props ) => {
         } : o
       );
       setUpdatedOrders(newOrders)
-      //console.log(updatedOrders);
     }
     setDraggingArmy(null);  // Reset the dragging state
   };
@@ -99,8 +95,8 @@ const Map = ( props ) => {
         return (
           <Arrow
             key={order.ArmyId}
-            start={countries.find(c => c.countryId === order.Origin)}
-            end={countries.find(c => c.countryId === order.Target)}
+            start={props.mapData.find(c => c.countryId === order.Origin)}
+            end={props.mapData.find(c => c.countryId === order.Target)}
             color={props.playerData.find(p => p.FactionName === order.AssistFaction)?.Color}
           />
           );

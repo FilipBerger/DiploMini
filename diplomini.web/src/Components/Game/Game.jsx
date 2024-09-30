@@ -43,7 +43,7 @@ const Game = () => {
         <div>
             {gameState ? <p>Date: {gameState.ingameDate}</p> : <p>Loading...</p>}
             {/* <Buttons /> */}
-            {gameState ?  (<Map mapData={gameState.map} playerData={playerData} />) : <p>Loading...</p>}
+            {gameState ?  (<Map mapData={gameState.map} playerData={playerData} currentPlayerId={1}/>) : <p>Loading...</p>}
             {/* <button onClick={updateGameState} >Update Game State</button> */}
         </div>
     )
