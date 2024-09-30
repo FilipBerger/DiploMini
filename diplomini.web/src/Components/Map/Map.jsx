@@ -17,6 +17,10 @@ const Map = ( props ) => {
   const [updatedOrders, setUpdatedOrders] = useState(orders);
 
 
+  // useEffect(() => {
+  //   console.log(updatedOrders)
+  // }); [updatedOrders]
+
   const handleMouseDown = (country) => {  //Start dragging army to another country
     //console.log(country)
     setOriginCountry(country);
@@ -30,6 +34,9 @@ const Map = ( props ) => {
   };
 
   const handleMouseUp = (targetCountry) => {  //"Drop" the army on a different country.
+    
+    // console.log("targetCountry: ", targetCountry)
+    
     if (draggingArmy && targetCountry &&
       adjacentCountries.includes(Number(targetCountry.countryId))//Ensure that we drag to an adjacent country
       // originCountry.AdjacentCountries.filter(c => c === targetCountry.id) ||
@@ -46,7 +53,7 @@ const Map = ( props ) => {
     setShowDialog(false);
     if (orderOption !== false) {
       const newOrders = updatedOrders.map(o => 
-        o.ArmyId === draggingArmy.Id ? {
+        o.ArmyId === draggingArmy.id ? {
           ...o,
           Contest: orderOption === null,
           Support: orderOption != null,
@@ -56,6 +63,7 @@ const Map = ( props ) => {
         } : o
       );
       setUpdatedOrders(newOrders)
+      
       //console.log(updatedOrders);
     }
     setDraggingArmy(null);  // Reset the dragging state
@@ -99,8 +107,8 @@ const Map = ( props ) => {
         return (
           <Arrow
             key={order.ArmyId}
-            start={countries.find(c => c.countryId === order.Origin)}
-            end={countries.find(c => c.countryId === order.Target)}
+            start={props.mapData.find(c => c.countryId === order.Origin)}
+            end={props.mapData.find(c => c.countryId === order.Target)}
             color={props.playerData.find(p => p.FactionName === order.AssistFaction)?.Color}
           />
           );
