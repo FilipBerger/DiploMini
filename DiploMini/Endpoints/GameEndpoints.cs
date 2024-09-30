@@ -49,7 +49,7 @@ namespace DiploMini.Server.Endpoints
             if (!game.UpdateReady)
                 return TypedResults.NotFound();
             try {
-                List<int> players = game.Players.Select(o => o.Id).ToList();
+                List<int> players = game.Players.Select(o => o.PlayerId).ToList();
                 List<ShortCountryResponse> map = game.Map
                     .Select(o => new ShortCountryResponse(o.CountryId, o.OwnerId, o.OccupyingArmy?.Id))
                     .ToList();
