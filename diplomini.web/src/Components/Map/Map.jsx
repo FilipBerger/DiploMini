@@ -14,9 +14,7 @@ const Map = (props) => {
   });
 
   const [showDialog, setShowDialog] = useState(false);
-  const [updatedOrders, setUpdatedOrders] = useState(
-    orders.filter((o) => o.OwnerId === props.currentPlayerId)
-  );
+  
 
   const handleMouseDown = (startCountry) => {
     if (startCountry?.occupyingArmy?.ownerId === props.currentPlayerId) {
@@ -54,7 +52,7 @@ const Map = (props) => {
   const handleSelectOption = (orderOption) => {
     setShowDialog(false);
     if (orderOption !== false) {
-      const newOrders = updatedOrders.map((o) =>
+      const newOrders = props.updatedOrders.map((o) =>
         o.ArmyId === orderProps.selectedArmy.id
           ? {
               ...o,
@@ -66,7 +64,7 @@ const Map = (props) => {
             }
           : o
       );
-      setUpdatedOrders(newOrders);
+      props.setUpdatedOrders(newOrders);
     }
 
     setOrderProps((prevState) => ({
@@ -107,7 +105,7 @@ const Map = (props) => {
         ))}
 
         {/* Render Arrows for each order */}
-        {updatedOrders.map((order) => {
+        {props.updatedOrders.map((order) => {
           return (
             <Arrow
               key={order.ArmyId}
