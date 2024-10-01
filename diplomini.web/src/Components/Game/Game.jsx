@@ -8,9 +8,26 @@ import orders from "../Map/orderFactory.jsx"
 const Game = () => {
     const [gameState , setGameState] = useState(null)
     const [currentPlayerId , setCurrentPlayerId] = useState(1)
-    const [updatedOrders, setUpdatedOrders] = useState(
-        orders.filter((o) => o.OwnerId === currentPlayerId)
-      );
+    const [updatedOrders, setUpdatedOrders] = useState(null);
+
+    const resetOrders = () => {
+        if (!gameState) {
+            return [];
+        }
+        return gameState.map
+            .filter(country => country.occupyingArmy)
+            .map(country => ({
+                ArmyId: country.occupyingArmy.Id,
+                OwnerId: country.occupyingArmy.OwnerId,
+                Contest: true,
+                Support: false,
+                AssistFaction: null,
+                Target: country.id,
+                Origin: country.id
+            }));
+    };
+
+        
 
     const initiateGameState = async () => {
         try {
@@ -23,6 +40,7 @@ const Game = () => {
     }
     useEffect(() => {
         initiateGameState()
+        resetOrders()
       }, [])
 
 
@@ -42,8 +60,10 @@ const Game = () => {
         try {
             const response = await postOrders(updatedOrders)
             if(response.ok){
+                console.log(orders)
                 turnAdvance();
                 updateGameState();
+                setUpdatedOrders(resetOrders());
             }
         }
         catch (error) {
