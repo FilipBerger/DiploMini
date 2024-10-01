@@ -14,9 +14,9 @@ const Game = () => {
             const data = await getInitialGameState()
             setGameState(data)
         }
-        catch 
+        catch (error)
         {
-            console.error("Error when loading game state.")
+            console.error("Error when loading game state: ", error.message)
         }
     }
     useEffect(() => {
@@ -36,25 +36,51 @@ const Game = () => {
         }
         catch (error)
         {
-            console.error("Error occured when submitting orders: ", error.message);
+            console.error("Error submitting orders: ", error.message);
         }
     }
 
-      // updateGameState has to be reworked 
+    //   updateGameState has to be reworked 
 
-    // const updateGameState = async () => {
-    //     try {
-    //         const data = await GetUpdatedGameState()
-    //         setGameState(data)
-    //     }
-    //     catch 
-    //     {
-    //         console.error("Error loading game state")
-    //     }
-    // }
-    // useEffect(() => {
-    //     updateGameState()
-    //   }, [])
+    const updateGameState = async () => {
+        try {
+            const updateResponse = await getUpdatedGameState()
+
+            setGameState((gameState) => {
+                const updatedMap = gameState.map.map((country) => {
+                    const updatedCountry = updateResponse.map.find(c => c.countryId === country.countryId)
+                    if (updatedCountry) {
+                        return {
+                            ...country,
+                            ownerId: updatedCountry.ownerId,
+                            occupyingArmy: updatedCountry.occupyingArmy 
+                        }
+                    }
+                    return country
+                })
+
+                const updatedPlayers = gameState.players.map((player) => {
+                    const isPlayerInResponse = updateResponse.players.includes(player.id)
+                    return {
+                        ...player,
+                        defeated: !isPlayerInResponse
+                    }
+                })
+
+                return {
+                    ...gameState,
+                    players: updatedPlayers,
+                    map: updatedMap,
+                    ingameDate: updateResponse.ingameDate
+                }
+
+            })
+        }
+        catch (error)
+        {
+            console.error("Error loading game state: ", error.message)
+        }
+    }
 
     return (
         
@@ -62,7 +88,7 @@ const Game = () => {
             {gameState ? <p>Date: {gameState.ingameDate}</p> : <p>Loading...</p>}
             {/* <Buttons /> */}
             {gameState ?  (<Map mapData={gameState.map} playerData={playerData} handleParentOrdersUpdate={handleOrdersUpdate}/>) : <p>Loading...</p>}
-            {/* <button onClick={updateGameState} >Update Game State</button> */}
+            <button onClick={updateGameState} >Update Game State</button>
             <button onClick={submitOrders}>Submit Orders</button>
         </div>
     )

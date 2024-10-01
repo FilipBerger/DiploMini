@@ -28,7 +28,7 @@ namespace DiploMini.Server.Endpoints
         }
 
         public record CountryResponse(List<Country> Countries);
-        public record ShortCountryResponse(int CountryId, int? OwnerId, int? ArmyId);
+        public record ShortCountryResponse(int CountryId, int? OwnerId, Army? OccupyingArmy);
         public record GameStateResponse(int GameId, string IngameDate, List<int> Players, List<ShortCountryResponse> Map, List<string> History);
         public record OrderRequest(
             int ArmyId,
@@ -60,7 +60,7 @@ namespace DiploMini.Server.Endpoints
             try {
                 List<int> players = game.Players.Select(o => o.Id).ToList();
                 List<ShortCountryResponse> map = game.Map
-                    .Select(o => new ShortCountryResponse(o.CountryId, o.OwnerId, o.OccupyingArmy?.Id))
+                    .Select(o => new ShortCountryResponse(o.CountryId, o.OwnerId, o.OccupyingArmy))
                     .ToList();
 
                 var gameStateResponse = new GameStateResponse(game.GameId, game.IngameDate, players, map, game.History);

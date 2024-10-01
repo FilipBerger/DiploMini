@@ -16,7 +16,7 @@ const Map = ( props ) => {
   const [targetCountry, setTargetCountry] = useState(null);
   const [updatedOrders, setUpdatedOrders] = useState(orders);
 
-
+  
   // useEffect(() => {
   //   console.log(updatedOrders)
   // }); [updatedOrders]
