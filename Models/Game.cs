@@ -12,6 +12,8 @@ namespace DiploMini.Models
         public string IngameDate { get; set; }
         public List<string> History { get; set; }
 
+        public List<Order> Orders { get; set; }
+
         //public bool GameStarted { get; set; }
         public bool UpdateReady { get; set; }
 

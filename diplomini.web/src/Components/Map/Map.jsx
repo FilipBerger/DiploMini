@@ -14,7 +14,8 @@ const Map = ( props ) => {
   const [adjacentCountries, setAdjacentCountries] = useState([]); // New state for adjacent countries
   const [showDialog, setShowDialog] = useState(false);
   const [targetCountry, setTargetCountry] = useState(null);
-  const [updatedOrders, setUpdatedOrders] = useState(orders);
+  const [updatedOrders, setUpdatedOrders] = useState(orders.filter(o => o.OwnerId === props.currentPlayerId));
+
 
   
   // useEffect(() => {
@@ -22,14 +23,12 @@ const Map = ( props ) => {
   // }); [updatedOrders]
 
   const handleMouseDown = (country) => {  //Start dragging army to another country
-    //console.log(country)
-    setOriginCountry(country);
-    if (country.occupyingArmy) {
+    
+    if (country?.occupyingArmy?.ownerId === props.currentPlayerId) {
+      setOriginCountry(country);
       setMouseIsDown(true);
       setDraggingArmy(country.occupyingArmy);
       setAdjacentCountries(country.adjacentCountriesById);
-      //console.log("AdjecentCountriesById: ", country.adjacentCountriesById)
-      
     }
   };
 
@@ -39,8 +38,6 @@ const Map = ( props ) => {
     
     if (draggingArmy && targetCountry &&
       adjacentCountries.includes(Number(targetCountry.countryId))//Ensure that we drag to an adjacent country
-      // originCountry.AdjacentCountries.filter(c => c === targetCountry.id) ||
-      // (originCountry.id != targetCountry.id)
       ) {
       setTargetCountry(targetCountry);
       setShowDialog(true);
@@ -98,7 +95,6 @@ const Map = ( props ) => {
             onMouseDown={() => handleMouseDown(country)}
             onMouseUp={() => handleMouseUp(country)}
             originCountry={originCountry}
-            
           />
         ))}
 
@@ -110,6 +106,7 @@ const Map = ( props ) => {
             start={props.mapData.find(c => c.countryId === order.Origin)}
             end={props.mapData.find(c => c.countryId === order.Target)}
             color={props.playerData.find(p => p.FactionName === order.AssistFaction)?.Color}
+            assistedFaction={order.AssistFaction}
           />
           );
         })}

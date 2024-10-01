@@ -13,7 +13,20 @@ namespace DiploMini.Server
 
         public void SubmitOrders(List<Order> orders)
         {
-            
+            if (Game.Orders == null)
+                Game.Orders = orders;
+            else
+                Game.Orders.AddRange(orders);
+            var player = Game.Players.Where(p => p.PlayerId == orders[0].OwnerId).FirstOrDefault();
+            player.SubmittedOrders = true;
+
+            if (Game.Players
+                .Where(p => !p.Defeated)
+                .All(p => p.SubmittedOrders))
+            {
+                HandleMovement(orders);
+                Game.UpdateReady = true;
+            }
         }
 
         public List<Country> GetInitialMap()
@@ -52,7 +65,7 @@ namespace DiploMini.Server
             {
                 Game.Players.Add(new Player()
                 {
-                    Id = i + 1,
+                    PlayerId = i + 1,
                     FactionName = playerNames[i],
                     Color = factionColors[i + 1],
                     Defeated = false

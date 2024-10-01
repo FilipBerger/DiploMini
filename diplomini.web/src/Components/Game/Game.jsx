@@ -90,6 +90,7 @@ const Game = () => {
             {gameState ?  (<Map mapData={gameState.map} playerData={playerData} handleParentOrdersUpdate={handleOrdersUpdate}/>) : <p>Loading...</p>}
             <button onClick={updateGameState} >Update Game State</button>
             <button onClick={submitOrders}>Submit Orders</button>
+
         </div>
     )
 }

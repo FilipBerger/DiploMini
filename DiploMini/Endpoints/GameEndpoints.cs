@@ -58,7 +58,7 @@ namespace DiploMini.Server.Endpoints
             if (!game.UpdateReady)
                 return TypedResults.NotFound();
             try {
-                List<int> players = game.Players.Select(o => o.Id).ToList();
+                List<int> players = game.Players.Select(o => o.PlayerId).ToList();
                 List<ShortCountryResponse> map = game.Map
                     .Select(o => new ShortCountryResponse(o.CountryId, o.OwnerId, o.OccupyingArmy))
                     .ToList();
@@ -98,6 +98,12 @@ namespace DiploMini.Server.Endpoints
                 Console.WriteLine($"Error processing orders: {ex.Message} \n {ex.StackTrace}");
                 return TypedResults.BadRequest(new { message = $"Error processing orders: {ex.Message}" });
             }
+
+        static IResult SubmitOrders([FromServices] IGameService gameService, [FromBody] List<Order> orders)
+        {
+            gameService.SubmitOrders(orders);
+            return Results.Ok();
+
         }
 
         static IResult PostOrders([FromServices] IGameService gameService, [FromBody] List<OrderRequest> orderRequests)
