@@ -86,7 +86,6 @@ const Map = ( props ) => {
             onMouseDown={() => handleMouseDown(country)}
             onMouseUp={() => handleMouseUp(country)}
             originCountry={originCountry}
-            
           />
         ))}
 
@@ -98,6 +97,7 @@ const Map = ( props ) => {
             start={props.mapData.find(c => c.countryId === order.Origin)}
             end={props.mapData.find(c => c.countryId === order.Target)}
             color={props.playerData.find(p => p.FactionName === order.AssistFaction)?.Color}
+            assistedFaction={order.AssistFaction}
           />
           );
         })}
