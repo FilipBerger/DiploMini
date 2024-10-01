@@ -38,10 +38,11 @@ namespace DiploMini.Server.Endpoints
             string? AssistFaction,
             int Target,
             int Origin);
+
         static Results<Ok<CountryResponse>, NotFound> GetInitialMap([FromServices] IGameService gameService)
         {
-            CountryResponse response = new( gameService.GetInitialMap() );
-    
+            CountryResponse response = new(gameService.GetInitialMap());
+
             if (response == null || response.Countries.Count == 0)
                 return TypedResults.NotFound();
             return TypedResults.Ok(response);
@@ -57,7 +58,8 @@ namespace DiploMini.Server.Endpoints
             var game = gameService.GetGameState();
             if (!game.UpdateReady)
                 return TypedResults.NotFound();
-            try {
+            try
+            {
                 List<int> players = game.Players.Select(o => o.PlayerId).ToList();
                 List<ShortCountryResponse> map = game.Map
                     .Select(o => new ShortCountryResponse(o.CountryId, o.OwnerId, o.OccupyingArmy))
@@ -98,6 +100,7 @@ namespace DiploMini.Server.Endpoints
                 Console.WriteLine($"Error processing orders: {ex.Message} \n {ex.StackTrace}");
                 return TypedResults.BadRequest(new { message = $"Error processing orders: {ex.Message}" });
             }
+        }
 
         static IResult SubmitOrders([FromServices] IGameService gameService, [FromBody] List<Order> orders)
         {
@@ -109,7 +112,7 @@ namespace DiploMini.Server.Endpoints
         static IResult PostOrders([FromServices] IGameService gameService, [FromBody] List<OrderRequest> orderRequests)
         {
             if (orderRequests == null || !orderRequests.Any())
-                return TypedResults.BadRequest(new { message = "No orders submitted."});
+                return TypedResults.BadRequest(new { message = "No orders submitted." });
             try
             {
                 var orders = orderRequests.Select(o => new Order
@@ -138,7 +141,6 @@ namespace DiploMini.Server.Endpoints
             if (Validator.ValidatePlayers(playerNames))
             {
                 gameService.AddPlayersToGame(playerNames);
-                // Borde returnera game state?
                 var game = gameService.GetGameState();
 
                 return TypedResults.Ok();
@@ -147,7 +149,8 @@ namespace DiploMini.Server.Endpoints
             {
                 return TypedResults.BadRequest(new { message = "Player names are not unique or they are null/empty" });
             }
-            
+
         }
     }
 }
+
