@@ -17,6 +17,10 @@ const Map = ( props ) => {
   const [updatedOrders, setUpdatedOrders] = useState(orders.filter(o => o.OwnerId === props.currentPlayerId));
 
 
+  
+  // useEffect(() => {
+  //   console.log(updatedOrders)
+  // }); [updatedOrders]
 
   const handleMouseDown = (country) => {  //Start dragging army to another country
     
@@ -29,6 +33,9 @@ const Map = ( props ) => {
   };
 
   const handleMouseUp = (targetCountry) => {  //"Drop" the army on a different country.
+    
+    // console.log("targetCountry: ", targetCountry)
+    
     if (draggingArmy && targetCountry &&
       adjacentCountries.includes(Number(targetCountry.countryId))//Ensure that we drag to an adjacent country
       ) {
@@ -53,6 +60,8 @@ const Map = ( props ) => {
         } : o
       );
       setUpdatedOrders(newOrders)
+      props.handleParentOrdersUpdate(newOrders)
+      //console.log(updatedOrders);
     }
     setDraggingArmy(null);  // Reset the dragging state
   };
