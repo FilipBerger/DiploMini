@@ -86,12 +86,12 @@ const countries = ([
   {
     id: "18",
     d: "m256,338l43,-37l62,-22l30,-4l-20,52c0,0 -35,17 -37,19c-2,2 -61,10 -62,10c-1,0 -16,-18 -16,-18z",
+    fill: "hsl(278, 70%, 30%)",   
+    stroke: "#000000",
     center: [330, 320],  // Center point for Småland
     name: "Småland",
     isSupplyPoint: true,  // Småland is a supply point
     occupyingArmy: {Id: 3, OwnerId: 2},  // Assuming occupyingArmy is represented as "Army 11"
-    fill: "hsl(278, 70%, 30%)",   
-    stroke: "#000000",
     ownerId: 2,
     adjacentCountriesById: [ 16, 17]
   }

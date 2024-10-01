@@ -1,34 +1,96 @@
 import { useState, useEffect } from "react"
-import Buttons from "../Buttons/Buttons.jsx"
+import playerData from "./mockPlayers.jsx"
+// import Buttons from "../Buttons/Buttons.jsx"
 import Map from "../Map/Map.jsx"
-import { fetchGameState } from "../../api.js"
-import PlayerTurn  from "../PlayerTurns/PlayerTurn.jsx"
+import { getUpdatedGameState, getInitialGameState, postOrders } from "../../api.js"
+import orders from "../Map/orderFactory.jsx"
 
 const Game = () => {
     const [gameState , setGameState] = useState(null)
-    
-    const updateGameState = async () => {
+    let orders = null;
+
+    const initiateGameState = async () => {
         try {
-            const data = await fetchGameState()
+            const data = await getInitialGameState()
             setGameState(data)
         }
-        catch 
+        catch (error)
         {
-            console.error("Error loading game state")
+            console.error("Error when loading game state: ", error.message)
         }
     }
     useEffect(() => {
-        updateGameState()
+        initiateGameState()
       }, [])
+    
+    const handleOrdersUpdate = (newOrders) => {
+        orders = newOrders
+        // console.log(orders)
+    }
+
+    const submitOrders = async () => {
+        try 
+        {
+            const response = await postOrders(orders)
+            //console.log("Status code: ", response.status)
+        }
+        catch (error)
+        {
+            console.error("Error submitting orders: ", error.message);
+        }
+    }
+
+    //   updateGameState has to be reworked 
+
+    const updateGameState = async () => {
+        try {
+            const updateResponse = await getUpdatedGameState()
+
+            setGameState((gameState) => {
+                const updatedMap = gameState.map.map((country) => {
+                    const updatedCountry = updateResponse.map.find(c => c.countryId === country.countryId)
+                    if (updatedCountry) {
+                        return {
+                            ...country,
+                            ownerId: updatedCountry.ownerId,
+                            occupyingArmy: updatedCountry.occupyingArmy 
+                        }
+                    }
+                    return country
+                })
+
+                const updatedPlayers = gameState.players.map((player) => {
+                    const isPlayerInResponse = updateResponse.players.includes(player.id)
+                    return {
+                        ...player,
+                        defeated: !isPlayerInResponse
+                    }
+                })
+
+                return {
+                    ...gameState,
+                    players: updatedPlayers,
+                    map: updatedMap,
+                    ingameDate: updateResponse.ingameDate
+                }
+
+            })
+        }
+        catch (error)
+        {
+            console.error("Error loading game state: ", error.message)
+        }
+    }
 
     return (
         
         <div>
             {gameState ? <p>Date: {gameState.ingameDate}</p> : <p>Loading...</p>}
-            <Buttons />
-            {gameState ? (<PlayerTurn playerData={gameState.players} />) : <p>Loading...</p>}
-            {gameState ?  (<Map mapData={gameState.map} />) : <p>Loading...</p>}
+            {/* <Buttons /> */}
+            {gameState ?  (<Map mapData={gameState.map} playerData={playerData} handleParentOrdersUpdate={handleOrdersUpdate}/>) : <p>Loading...</p>}
             <button onClick={updateGameState} >Update Game State</button>
+            <button onClick={submitOrders}>Submit Orders</button>
+
         </div>
     )
 }
