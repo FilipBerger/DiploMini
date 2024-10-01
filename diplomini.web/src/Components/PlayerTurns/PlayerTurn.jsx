@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import playerData from "../Game/mockPlayers";
 
-const PlayerTurn = ({ playerData }) => {
-    const players = [
-        { id: 1, name: 'Player 1', factionName: 'Faction 1', Defeated: false },
-        { id: 2, name: 'Player 2', factionName: 'Faction 2', Defeated: true }, // Hardcoded as defeated
-        { id: 3, name: 'Player 3', factionName: 'Faction 3', Defeated: false },
-    ];
+const PlayerTurn = () => {
+    // const players = [
+    //     { id: 1, name: 'Player 1', factionName: 'Faction 1', Defeated: false },
+    //     { id: 2, name: 'Player 2', factionName: 'Faction 2', Defeated: true }, // Hardcoded as defeated
+    //     { id: 3, name: 'Player 3', factionName: 'Faction 3', Defeated: false },
+    // ];
     const [currentTurn, setCurrentTurn] = useState(0);
     
 
@@ -17,10 +18,10 @@ const PlayerTurn = ({ playerData }) => {
     // Goes to next player's turn or ends round
     const turnAdvance = () => {
         let nextPlayer = currentTurn + 1;
-        while (nextPlayer < players.length && players[nextPlayer].Defeated) {
+        while (nextPlayer < playerData.length && playerData[nextPlayer].Defeated) {
             nextPlayer++;
         }
-        if (nextPlayer < players.length) {
+        if (nextPlayer < playerData.length) {
             setCurrentTurn(nextPlayer);
         } else {
             handleRoundEnd();
@@ -29,7 +30,7 @@ const PlayerTurn = ({ playerData }) => {
 
     return (
         <>
-            <h2>Player {players[currentTurn].name}'s turn</h2>
+            <h2>Player {playerData[currentTurn].FactionName}'s turn</h2>
         </>
     );
 };
