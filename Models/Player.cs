@@ -23,6 +23,4 @@ namespace DiploMini.Models
             };
         }
     }
-
-    
 }
