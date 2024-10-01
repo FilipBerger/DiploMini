@@ -10,20 +10,21 @@ const Game = () => {
     const [currentPlayerId , setCurrentPlayerId] = useState(1)
     const [updatedOrders, setUpdatedOrders] = useState(null);
 
-    const resetOrders = () => {
-        if (!gameState) {
+    const resetOrders = (updatedMap) => {
+        console.log(updatedMap)
+        if (!updatedMap) {
             return [];
         }
-        return gameState.map
+        return updatedMap
             .filter(country => country.occupyingArmy)
             .map(country => ({
-                ArmyId: country.occupyingArmy.Id,
-                OwnerId: country.occupyingArmy.OwnerId,
+                ArmyId: country.occupyingArmy.id,
+                OwnerId: country.occupyingArmy.ownerId,
                 Contest: true,
                 Support: false,
                 AssistFaction: null,
-                Target: country.id,
-                Origin: country.id
+                Target: country.countryId,
+                Origin: country.countryId
             }));
     };
 
@@ -40,8 +41,15 @@ const Game = () => {
     }
     useEffect(() => {
         initiateGameState()
-        resetOrders()
       }, [])
+
+    useEffect(() => {
+    if (gameState) {
+        console.log(gameState)
+        console.log(resetOrders(gameState.map))
+        setUpdatedOrders(resetOrders(gameState.map));  // Reset orders when gameState is available
+    }
+    }, [gameState]);  // Runs when gameState changes
 
 
     // Goes to next player's turn or ends round
@@ -60,7 +68,7 @@ const Game = () => {
         try {
             const response = await postOrders(updatedOrders)
             if(response.ok){
-                console.log(orders)
+                // console.log(orders)
                 turnAdvance();
                 updateGameState();
                 setUpdatedOrders(resetOrders());

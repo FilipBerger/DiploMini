@@ -21,8 +21,6 @@ const Country = ({
   const [countryColor, setCountryColor] = useState(fill); // Country color state
   const [strokeColor, setStrokeColor] = useState(fill); // Set initial stroke to the passed stroke prop
 
-  console.log(originCountryId)
-
   // Function to lighten HSL color
   const lightenHSLColor = (hslColor, percent) => {
     const hslRegex = /hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/;

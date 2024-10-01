@@ -4,7 +4,6 @@ import React from 'react';
 const Arrow = ({ start, end, color, assistedFaction }) => {
   color = color == null ? 'black' : color;
 
-  console.log(assistedFaction)
   // Ensure start and end points are valid
   if (!start || !end || start === end) return null;
 
