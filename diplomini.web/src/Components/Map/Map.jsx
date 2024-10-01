@@ -63,7 +63,7 @@ const Map = ( props ) => {
         } : o
       );
       setUpdatedOrders(newOrders)
-      
+      props.handleParentOrdersUpdate(newOrders)
       //console.log(updatedOrders);
     }
     setDraggingArmy(null);  // Reset the dragging state

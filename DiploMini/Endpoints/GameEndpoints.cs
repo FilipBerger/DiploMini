@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace DiploMini.Server.Endpoints
 {
@@ -28,7 +30,14 @@ namespace DiploMini.Server.Endpoints
         public record CountryResponse(List<Country> Countries);
         public record ShortCountryResponse(int CountryId, int? OwnerId, int? ArmyId);
         public record GameStateResponse(int GameId, string IngameDate, List<int> Players, List<ShortCountryResponse> Map, List<string> History);
-
+        public record OrderRequest(
+            int ArmyId,
+            int OwnerId,
+            bool Contest,
+            bool Support,
+            string? AssistFaction,
+            int Target,
+            int Origin);
         static Results<Ok<CountryResponse>, NotFound> GetInitialMap([FromServices] IGameService gameService)
         {
             CountryResponse response = new( gameService.GetInitialMap() );
@@ -64,16 +73,58 @@ namespace DiploMini.Server.Endpoints
             }
         }
 
-        static IResult MovementTestOrder([FromServices] IGameService gameService, [FromBody] List<Order> orders)
+        static IResult MovementTestOrder([FromServices] IGameService gameService, [FromBody] List<OrderRequest> orderRequests)
         {
-            gameService.HandleMovement(orders);
-            return Results.Ok();
+            if (orderRequests == null || !orderRequests.Any())
+                return TypedResults.BadRequest(new { message = "No orders submitted." });
+            try
+            {
+                var orders = orderRequests.Select(o => new Order
+                {
+                    ArmyId = o.ArmyId,
+                    OwnerId = o.OwnerId,
+                    Contest = o.Contest,
+                    Support = o.Support,
+                    AssistFaction = o.AssistFaction,
+                    Target = o.Target,
+                    Origin = o.Origin
+                }).ToList();
+
+                gameService.HandleMovement(orders);
+                return TypedResults.Ok();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error processing orders: {ex.Message} \n {ex.StackTrace}");
+                return TypedResults.BadRequest(new { message = $"Error processing orders: {ex.Message}" });
+            }
         }
 
-        static IResult PostOrders([FromServices] IGameService gameService, [FromBody] List<Order> orders)
+        static IResult PostOrders([FromServices] IGameService gameService, [FromBody] List<OrderRequest> orderRequests)
         {
-            // Validate orders here, if valid, return OK, else return bad request.
-            return Results.Ok();
+            if (orderRequests == null || !orderRequests.Any())
+                return TypedResults.BadRequest(new { message = "No orders submitted."});
+            try
+            {
+                var orders = orderRequests.Select(o => new Order
+                {
+                    ArmyId = o.ArmyId,
+                    OwnerId = o.OwnerId,
+                    Contest = o.Contest,
+                    Support = o.Support,
+                    AssistFaction = o.AssistFaction,
+                    Target = o.Target,
+                    Origin = o.Origin
+                }).ToList();
+
+                gameService.HandleMovement(orders);
+                return TypedResults.Ok();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error processing orders: {ex.Message} \n {ex.StackTrace}");
+                return TypedResults.BadRequest(new { message = $"Error processing orders: {ex.Message}" });
+            }
         }
 
         static IResult PostPlayers([FromServices] IGameService gameService, [FromBody] List<string> playerNames)

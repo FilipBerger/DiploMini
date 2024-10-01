@@ -30,14 +30,14 @@ namespace DiploMini.Server
         {
             foreach (Order order in orders)
             {
-                var targetCountry = Game.Map.FirstOrDefault(c => c.Name == order.Target);
+                var targetCountry = Game.Map.FirstOrDefault(c => c.CountryId == order.Target);
                 if (targetCountry == null) 
                     continue;
                 targetCountry.OccupyingArmy = new Army() { Id = order.ArmyId, OwnerId = order.OwnerId };
                 targetCountry.OwnerId = order.OwnerId;
                 if(order.Origin != order.Target)
                 {
-                    var originCountry = Game.Map.FirstOrDefault(c => c.Name == order.Origin);
+                    var originCountry = Game.Map.FirstOrDefault(c => c.CountryId == order.Origin);
                     originCountry.OccupyingArmy = null;
                 }
 
