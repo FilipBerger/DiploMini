@@ -38,7 +38,7 @@ const Arrow = ({ start, end, color, assistedFaction }) => {
         markerEnd={`url(#${markerId})`} // Attach arrow marker at the end
       />
 
-      {(color != 'black') && 
+      {assistedFaction && 
         <text
           x={(start.center[0] + end.center[0]) / 2} // Position in the middle of x
           y={(start.center[1] + end.center[1]) / 2} // Position in the middle of y
