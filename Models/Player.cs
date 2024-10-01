@@ -10,7 +10,7 @@ namespace DiploMini.Models
     {
         public int PlayerId { get; set; }
         public string FactionName { get; set; }
-        public FactionColors Color { get; set; }
+        public string Color { get; set; }
         public bool Defeated { get; set; }
         public bool SubmittedOrders { get; set; }
 
@@ -18,8 +18,8 @@ namespace DiploMini.Models
         {
             return new List<Player>()
             {
-                new Player(){PlayerId = 1, FactionName = "TestFaction1", Color = FactionColors.Red, Defeated = false, SubmittedOrders = false},
-                new Player(){PlayerId = 2, FactionName = "TestFaction2", Color = FactionColors.Green, Defeated = false, SubmittedOrders = false},
+                new Player(){PlayerId = 1, FactionName = "TestFaction1", Color = "Red", Defeated = false, SubmittedOrders = false},
+                new Player(){PlayerId = 2, FactionName = "TestFaction2", Color = "Green", Defeated = false, SubmittedOrders = false},
             };
         }
     }

@@ -1,9 +1,10 @@
 import React, { useEffect, useState, memo } from 'react';
 import ArmyIcon from '../../assets/army_star_icon.svg';
+import colorData from '../../../colorData';
 
 const Country = ({
   d,
-  fill,
+  color,
   stroke,
   strokeWidth,
   id,
@@ -18,43 +19,23 @@ const Country = ({
   isAdjacent
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [countryColor, setCountryColor] = useState(fill); // Country color state
-  const [strokeColor, setStrokeColor] = useState(fill); // Set initial stroke to the passed stroke prop
-
-  console.log(originCountryId)
-
-  // Function to lighten HSL color
-  const lightenHSLColor = (hslColor, percent) => {
-    const hslRegex = /hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/;
-    const match = hslColor.match(hslRegex);
-
-    if (match) {
-      const hue = match[1];
-      const saturation = match[2];
-      let lightness = parseFloat(match[3]);
-
-      // Adjust the lightness by the percentage provided
-      lightness = Math.min(100, Math.max(0, lightness + percent));
-
-      return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-    }
-    return hslColor; // Return original if no match
-  };
+  const [countryColor, setCountryColor] = useState(colorData[color].CountryBase); // Country color state
+  const [strokeColor, setStrokeColor] = useState(colorData[color].CountryBase); // Set initial stroke to the passed stroke prop
 
   // Update the country color based on hover and dragging state
   useEffect(() => {
     if (mouseIsDown && (isAdjacent.includes(Number(id)) || originCountryId === id)) {
-      setCountryColor(lightenHSLColor(fill, 10)); // Lighten adjacent country color
-      setStrokeColor(fill);
+      setCountryColor(colorData[color].CountryAdjacent); // Lighten adjacent country color
+      setStrokeColor(countryColor);
       if (isHovered || originCountryId === id) {
-        setCountryColor(lightenHSLColor(fill, 20)); // Lighten the origin country
+        setCountryColor(colorData[color].CountrySelected); // Lighten the origin country
         setStrokeColor('black'); // Change stroke to black for hover or origin
       }
     } else {
-      setCountryColor(fill); // Reset to original fill
-      setStrokeColor(fill); // Reset to original stroke
+      setCountryColor(colorData[color].CountryBase); // Reset to original fill
+      setStrokeColor(colorData[color].CountryBase); // Reset to original stroke
     }
-  }, [mouseIsDown, isHovered, isAdjacent, originCountryId, fill, stroke, id]);
+  }, [mouseIsDown, isHovered, isAdjacent, originCountryId, color, stroke, id]);
 
   // Handle hover effects
   const handleMouseEnter = () => {

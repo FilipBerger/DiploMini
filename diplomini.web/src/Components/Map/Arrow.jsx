@@ -1,16 +1,15 @@
 import React from 'react';
+import colorData from '../../../colorData';
 
 // Arrow component to connect two countries based on their center points
 const Arrow = ({ start, end, color, assistedFaction }) => {
-  color = color == null ? 'black' : color;
+  const arrowColor = color == null ? 'Black' : colorData[color].Arrow;
 
-  console.log(assistedFaction)
   // Ensure start and end points are valid
   if (!start || !end || start === end) return null;
 
   // Sanitize the color to generate a valid marker ID
-  const sanitizedColor = color.replace(/[(),\s]/g, '-');
-  const markerId = `arrowhead-${sanitizedColor}`;
+  const markerId = `arrowhead-${color}-${assistedFaction}`;
 
   return (
     <>
@@ -25,14 +24,14 @@ const Arrow = ({ start, end, color, assistedFaction }) => {
           orient="auto"
           markerUnits="strokeWidth"
         >
-          <polygon points="0 0, 5 3.5, 0 7" fill={color} />
+          <polygon points="0 0, 5 3.5, 0 7" fill={arrowColor} />
         </marker>
       </defs>
 
       <line
         x1={start.center[0]} y1={start.center[1]}
         x2={end.center[0]} y2={end.center[1]}
-        stroke={color}
+        stroke={arrowColor}
         strokeWidth="2"
         markerEnd={`url(#${markerId})`} // Attach arrow marker at the end
       />

@@ -50,7 +50,7 @@ const Map = (props) => {
   const handleSelectOption = (orderOption) => {
     setShowDialog(false);
     if (orderOption !== false) {
-      const newOrders = props.updatedOrders.map((o) =>
+      const newOrders = props.updatedOrders?.map((o) =>
         o.ArmyId === orderProps.selectedArmy.id
           ? {
               ...o,
@@ -91,7 +91,8 @@ const Map = (props) => {
             name={country.name}
             isSupplyPoint={country.isSupplyPoint}
             occupyingArmy={country.occupyingArmy}
-            fill={country.fill}
+            // fill={country.fill}
+            color={country.color}
             stroke={country.stroke}
             strokeWidth={country.strokeWidth}
             mouseIsDown={orderProps.mouseIsDown}
@@ -103,15 +104,15 @@ const Map = (props) => {
         ))}
 
         {/* Render Arrows for each order */}
-        {props.updatedOrders.map((order) => {
+        {props.updatedOrders?.map((order) => {
           return (
             <Arrow
               key={order.ArmyId}
               start={props.mapData.find((c) => c.countryId === order.Origin)}
               end={props.mapData.find((c) => c.countryId === order.Target)}
               color={
-                props.playerData.find((p) => p.FactionName === order.AssistFaction)
-                  ?.Color
+                props.playerData.find((p) => p.factionName === order.AssistFaction)
+                  ?.color
               }
               assistedFaction={order.AssistFaction}
             />
