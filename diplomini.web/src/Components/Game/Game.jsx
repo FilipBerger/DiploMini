@@ -7,6 +7,7 @@ import orders from "../Map/orderFactory.jsx"
 
 const Game = () => {
     const [gameState , setGameState] = useState(null)
+    const [currentPlayerId , setCurrentPlayerId] = useState(1)
     let orders = null;
 
     const initiateGameState = async () => {
@@ -87,7 +88,7 @@ const Game = () => {
         <div>
             {gameState ? <p>Date: {gameState.ingameDate}</p> : <p>Loading...</p>}
             {/* <Buttons /> */}
-            {gameState ?  (<Map mapData={gameState.map} playerData={playerData} handleParentOrdersUpdate={handleOrdersUpdate}/>) : <p>Loading...</p>}
+            {gameState ?  (<Map mapData={gameState.map} playerData={playerData} handleParentOrdersUpdate={handleOrdersUpdate} currentPlayerId={currentPlayerId}/>) : <p>Loading...</p>}
             <button onClick={updateGameState} >Update Game State</button>
             <button onClick={submitOrders}>Submit Orders</button>
 
