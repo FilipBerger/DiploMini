@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ArmyIcon from '../../assets/army_star_icon.svg'
 
-const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupplyPoint, center, onMouseDown, onMouseUp, mouseIsDown, originCountry, isAdjacent  }) => {
+const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupplyPoint, center, onMouseDown, onMouseUp, mouseIsDown, originCountryId, adjacentCountries  }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [countryColor, setCountryColor] = useState(fill);  // Country color state
   const [strokeColor, setStrokeColor] = useState(fill);
@@ -30,10 +30,10 @@ const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupp
   useEffect(() => {
 
     //console.log(isAdjacent, id, originCountry)
-    if (mouseIsDown && (isAdjacent.includes(Number(id)) || originCountry.countryId === id)) {
+    if (mouseIsDown && (adjacentCountries.includes(Number(id)) || originCountryId === id)) {
       setCountryColor(lightenHSLColor(fill, 10));  // Lighten adjacent country color
       setStrokeColor(fill);
-      if (isHovered || originCountry.countryId === id) {
+      if (isHovered || originCountryId === id) {
         setCountryColor(lightenHSLColor(fill, 20));  // Lighten adjacent country color
         setStrokeColor("black");
       };
@@ -42,7 +42,7 @@ const Country = ({ d, fill, stroke, strokeWidth, id, name, occupyingArmy, isSupp
       setCountryColor(fill);  // Default color when not hovered or dragged
       setStrokeColor(fill);
     }
-  }, [mouseIsDown, isHovered, isAdjacent, originCountry, fill, id]);
+  }, [mouseIsDown, isHovered, adjacentCountries, originCountryId, fill, id]);
 
   const handleMouseEnter = () => {  // Handle mouse enter (hover)
     if (mouseIsDown) {

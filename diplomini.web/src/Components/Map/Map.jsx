@@ -8,31 +8,36 @@ import Arrow from './Arrow';
 
 const Map = ( props ) => {
 
+  const [orderProps, setorderProps] = useState({ mouseIsDown: false, selectedArmy: null, originCountry: null, targetCountry: null, adjacentCountries: []})
   const [mouseIsDown, setMouseIsDown] = useState(false);
   const [draggingArmy, setDraggingArmy] = useState(null); // Track the army being dragged
   const [originCountry, setOriginCountry] = useState(null);  // Track the source country being dragged from
   const [adjacentCountries, setAdjacentCountries] = useState([]); // New state for adjacent countries
-  const [showDialog, setShowDialog] = useState(false);
   const [targetCountry, setTargetCountry] = useState(null);
+
+
+
+  const [showDialog, setShowDialog] = useState(false);
   const [updatedOrders, setUpdatedOrders] = useState(orders.filter(o => o.OwnerId === props.currentPlayerId));
 
 
 
-  const handleMouseDown = (country) => {  //Start dragging army to another country
+  const handleMouseDown = (startCountry) => {  //Start dragging army to another country
     
-    if (country?.occupyingArmy?.ownerId === props.currentPlayerId) {
-      setOriginCountry(country);
+    if (startCountry?.occupyingArmy?.ownerId === props.currentPlayerId) {
+
+      setOriginCountry(startCountry);
       setMouseIsDown(true);
-      setDraggingArmy(country.occupyingArmy);
-      setAdjacentCountries(country.adjacentCountriesById);
+      setDraggingArmy(startCountry.occupyingArmy);
+      setAdjacentCountries(startCountry.adjacentCountriesById);
     }
   };
 
-  const handleMouseUp = (targetCountry) => {  //"Drop" the army on a different country.
-    if (draggingArmy && targetCountry &&
-      adjacentCountries.includes(Number(targetCountry.countryId))//Ensure that we drag to an adjacent country
+  const handleMouseUp = (endCountry) => {  //"Drop" the army on a different country.
+    if (draggingArmy && endCountry &&
+      adjacentCountries.includes(Number(endCountry.countryId))//Ensure that we drag to an adjacent country
       ) {
-      setTargetCountry(targetCountry);
+      setTargetCountry(endCountry);
       setShowDialog(true);
     }
     setMouseIsDown(false);
@@ -82,10 +87,10 @@ const Map = ( props ) => {
             stroke={country.stroke}
             strokeWidth={country.strokeWidth}
             mouseIsDown={mouseIsDown}
-            isAdjacent={adjacentCountries}
+            adjacentCountries={adjacentCountries}
             onMouseDown={() => handleMouseDown(country)}
             onMouseUp={() => handleMouseUp(country)}
-            originCountry={originCountry}
+            originCountryId={originCountry?.countryId}
           />
         ))}
 
