@@ -1,26 +1,21 @@
 const baseUrl = "https://localhost:7026"
 
 export const getInitialGameState = async () => {
-
     const response = await fetch(`${baseUrl}/GetInitialGameState`)
     const data = await response.json()
     return data
 }
 
 export const getUpdatedGameState = async () => {
-    const response = await fetch(`${baseUrl}/GetUpdatedGameState`, {
-
-    })
+    const response = await fetch(`${baseUrl}/GetUpdatedGameState`)
     const data = await response.json()
     return data
 }
 
 export const postOrders = async ( orders ) => {
-    try 
-    {
+    try {
         const response = await fetch(
-            `${baseUrl}/PostOrders`,
-            {
+            `${baseUrl}/PostOrders`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -29,8 +24,7 @@ export const postOrders = async ( orders ) => {
             }
         )
 
-        if (!response.ok) 
-        {
+        if (!response.ok) {
             throw new Error(`Status: ${response.status} - ${response.statusText}`)
         }
         return response
