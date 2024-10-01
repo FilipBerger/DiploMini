@@ -8,6 +8,7 @@ import PlayerTurn  from "../PlayerTurns/PlayerTurn.jsx"
 
 const Game = () => {
     const [gameState , setGameState] = useState(null)
+    const [currentPlayerId , setCurrentPlayerId] = useState(1)
     let orders = null;
 
     const initiateGameState = async () => {
@@ -93,6 +94,7 @@ const Game = () => {
             {/* <Buttons /> */}
             {gameState ? <PlayerTurn/> : <p>Loading...</p>}
             {gameState ?  (<Map mapData={gameState.map} playerData={playerData} handleParentOrdersUpdate={handleOrdersUpdate}/>) : <p>Loading...</p>}
+{gameState ?  (<Map mapData={gameState.map} playerData={playerData} handleParentOrdersUpdate={handleOrdersUpdate} currentPlayerId={currentPlayerId}/>) : <p>Loading...</p>}
             <button onClick={updateGameState} >Update Game State</button>
             <button onClick={submitOrders}>Submit Orders</button>
 

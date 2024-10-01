@@ -19,7 +19,7 @@ const Country = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [countryColor, setCountryColor] = useState(fill); // Country color state
-  const [strokeColor, setStrokeColor] = useState(stroke); // Set initial stroke to the passed stroke prop
+  const [strokeColor, setStrokeColor] = useState(fill); // Set initial stroke to the passed stroke prop
 
   console.log(originCountryId)
 
@@ -45,14 +45,14 @@ const Country = ({
   useEffect(() => {
     if (mouseIsDown && (isAdjacent.includes(Number(id)) || originCountryId === id)) {
       setCountryColor(lightenHSLColor(fill, 10)); // Lighten adjacent country color
-      setStrokeColor(stroke);
+      setStrokeColor(fill);
       if (isHovered || originCountryId === id) {
         setCountryColor(lightenHSLColor(fill, 20)); // Lighten the origin country
         setStrokeColor('black'); // Change stroke to black for hover or origin
       }
     } else {
       setCountryColor(fill); // Reset to original fill
-      setStrokeColor(stroke); // Reset to original stroke
+      setStrokeColor(fill); // Reset to original stroke
     }
   }, [mouseIsDown, isHovered, isAdjacent, originCountryId, fill, stroke, id]);
 
