@@ -4,6 +4,7 @@ import playerData from "./mockPlayers.jsx"
 import Map from "../Map/Map.jsx"
 import { getUpdatedGameState, getInitialGameState, postOrders } from "../../api.js"
 import orders from "../Map/orderFactory.jsx"
+import PlayerTurn  from "../PlayerTurns/PlayerTurn.jsx"
 
 const Game = () => {
     const [gameState , setGameState] = useState(null)
@@ -33,6 +34,9 @@ const Game = () => {
         {
             const response = await postOrders(orders)
             //console.log("Status code: ", response.status)
+           if(response.ok){
+            turnAdvance();
+           }
         }
         catch (error)
         {
@@ -87,6 +91,7 @@ const Game = () => {
         <div>
             {gameState ? <p>Date: {gameState.ingameDate}</p> : <p>Loading...</p>}
             {/* <Buttons /> */}
+            {gameState ? <PlayerTurn/> : <p>Loading...</p>}
             {gameState ?  (<Map mapData={gameState.map} playerData={playerData} handleParentOrdersUpdate={handleOrdersUpdate}/>) : <p>Loading...</p>}
             <button onClick={updateGameState} >Update Game State</button>
             <button onClick={submitOrders}>Submit Orders</button>
