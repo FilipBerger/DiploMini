@@ -48,6 +48,7 @@ namespace DiploMini.Server
                     continue;
                 targetCountry.OccupyingArmy = new Army() { Id = order.ArmyId, OwnerId = order.OwnerId };
                 targetCountry.OwnerId = order.OwnerId;
+                targetCountry.Color = Game.Players.Where(p => p.PlayerId == order.OwnerId).Select(p => p.Color).FirstOrDefault();
                 if(order.Origin != order.Target)
                 {
                     var originCountry = Game.Map.FirstOrDefault(c => c.CountryId == order.Origin);
@@ -67,7 +68,7 @@ namespace DiploMini.Server
                 {
                     PlayerId = i + 1,
                     FactionName = playerNames[i],
-                    Color = factionColors[i + 1],
+                    Color = factionColors[i + 1].ToString(),
                     Defeated = false
                 });
             }

@@ -14,8 +14,6 @@ const Map = (props) => {
 
   const [showDialog, setShowDialog] = useState(false);
 
-  // console.log(props)
-
   const handleMouseDown = (startCountry) => {
     if (startCountry?.occupyingArmy?.ownerId === props.currentPlayerId) {
       setOrderProps((prevState) => ({
@@ -93,7 +91,8 @@ const Map = (props) => {
             name={country.name}
             isSupplyPoint={country.isSupplyPoint}
             occupyingArmy={country.occupyingArmy}
-            fill={country.fill}
+            // fill={country.fill}
+            color={country.color}
             stroke={country.stroke}
             strokeWidth={country.strokeWidth}
             mouseIsDown={orderProps.mouseIsDown}
@@ -112,8 +111,8 @@ const Map = (props) => {
               start={props.mapData.find((c) => c.countryId === order.Origin)}
               end={props.mapData.find((c) => c.countryId === order.Target)}
               color={
-                props.playerData.find((p) => p.FactionName === order.AssistFaction)
-                  ?.Color
+                props.playerData.find((p) => p.factionName === order.AssistFaction)
+                  ?.color
               }
               assistedFaction={order.AssistFaction}
             />

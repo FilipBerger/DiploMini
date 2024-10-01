@@ -1,23 +1,15 @@
+import colorData from "../../../colorData";
+
 const SelectOrderDialog = (
   {onSelectOption, players}
 ) => {
-  // const players = [{
-  //   id: 1,
-  //   name: "Dödspatrullen",
-  //   color: "red"
-  // },
-  // {
-  //   id: 2,
-  //   name: "Bumbibjörnarna",
-  //   color: "green"
-  // }]
 
   const options = [
     { Description: 'Move/Attack', Support: null, Color: null },
     ...players.map((player) => ({
-      Description: `Support ${player.FactionName}`,
-      Support: player.FactionName,
-      Color: player.Color,
+      Description: `Support ${player.factionName}`,
+      Support: player.factionName,
+      Color: colorData[player.color].CountryBase,
     })),
   ];
 

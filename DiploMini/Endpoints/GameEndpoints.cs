@@ -16,7 +16,7 @@ namespace DiploMini.Server.Endpoints
         public static void MapGameEndpoints(this IEndpointRouteBuilder app)
         {
             app.MapGet("GetInitialGameState", GetInitialGameState);
-            app.MapGet("/GetInitialMap", GetInitialMap)
+            app.MapGet("/GetInitialMap", GetInitialMap) //Not active
                 .WithOpenApi()
                 .WithSummary("Provides map with starting country values")
                 .WithDescription("Informs on where to draw supply points and adjacent countries, as well as the board setup in terms of ownership and army placement.");
@@ -28,7 +28,7 @@ namespace DiploMini.Server.Endpoints
         }
 
         public record CountryResponse(List<Country> Countries);
-        public record ShortCountryResponse(int CountryId, int? OwnerId, Army? OccupyingArmy);
+        public record ShortCountryResponse(int CountryId, int? OwnerId, Army? OccupyingArmy, string color);
         public record GameStateResponse(int GameId, string IngameDate, List<int> Players, List<ShortCountryResponse> Map, List<string> History);
         public record OrderRequest(
             int ArmyId,
@@ -62,7 +62,7 @@ namespace DiploMini.Server.Endpoints
             {
                 List<int> players = game.Players.Select(o => o.PlayerId).ToList();
                 List<ShortCountryResponse> map = game.Map
-                    .Select(o => new ShortCountryResponse(o.CountryId, o.OwnerId, o.OccupyingArmy))
+                    .Select(o => new ShortCountryResponse(o.CountryId, o.OwnerId, o.OccupyingArmy, o.Color))
                     .ToList();
 
                 var gameStateResponse = new GameStateResponse(game.GameId, game.IngameDate, players, map, game.History);
@@ -106,7 +106,6 @@ namespace DiploMini.Server.Endpoints
         {
             gameService.SubmitOrders(orders);
             return Results.Ok();
-
         }
 
         static IResult PostOrders([FromServices] IGameService gameService, [FromBody] List<OrderRequest> orderRequests)

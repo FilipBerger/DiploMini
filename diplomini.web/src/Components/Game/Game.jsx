@@ -1,9 +1,6 @@
 import { useState, useEffect } from "react"
-import playerData from "./mockPlayers.jsx"
 import Map from "../Map/Map.jsx"
 import { getUpdatedGameState, getInitialGameState, postOrders } from "../../api.js"
-import orders from "../Map/orderFactory.jsx"
-//import PlayerTurn from "../PlayerTurn/PlayerTurn.jsx"
 
 const Game = () => {
     const [gameState , setGameState] = useState(null)
@@ -11,7 +8,6 @@ const Game = () => {
     const [updatedOrders, setUpdatedOrders] = useState(null);
 
     const resetOrders = (updatedMap) => {
-        console.log(updatedMap)
         if (!updatedMap) {
             return [];
         }
@@ -45,8 +41,6 @@ const Game = () => {
 
     useEffect(() => {
     if (gameState) {
-        console.log(gameState)
-        console.log(resetOrders(gameState.map))
         setUpdatedOrders(resetOrders(gameState.map));  // Reset orders when gameState is available
     }
     }, [gameState]);  // Runs when gameState changes
@@ -68,7 +62,6 @@ const Game = () => {
         try {
             const response = await postOrders(updatedOrders)
             if(response.ok){
-                // console.log(orders)
                 turnAdvance();
                 updateGameState();
                 setUpdatedOrders(resetOrders());
@@ -90,7 +83,8 @@ const Game = () => {
                         return {
                             ...country,
                             ownerId: updatedCountry.ownerId,
-                            occupyingArmy: updatedCountry.occupyingArmy 
+                            occupyingArmy: updatedCountry.occupyingArmy,
+                            color: updatedCountry.color
                         }
                     }
                     return country
