@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Country from '../Country/Country';
 import SelectOrderDialog from '../SelectOrderDialog/SelectOrderDialog';
 import Arrow from './Arrow';
-import orders from './orderFactory';
 
 const Map = (props) => {
   const [orderProps, setOrderProps] = useState({
@@ -14,7 +13,6 @@ const Map = (props) => {
   });
 
   const [showDialog, setShowDialog] = useState(false);
-  
 
   const handleMouseDown = (startCountry) => {
     if (startCountry?.occupyingArmy?.ownerId === props.currentPlayerId) {
