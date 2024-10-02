@@ -1,4 +1,4 @@
-const baseUrl = "https://localhost:7026"
+import { baseUrl } from "./baseUrl"
 
 export const getInitialGameState = async () => {
     const response = await fetch(`${baseUrl}/GetInitialGameState`)
@@ -12,16 +12,16 @@ export const getUpdatedGameState = async () => {
     return data
 }
 
-export const postOrders = async ( orders ) => {
+export const postOrders = async (orders) => {
     try {
         const response = await fetch(
             `${baseUrl}/PostOrders`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(orders)
-            }
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(orders)
+        }
         )
 
         if (!response.ok) {
