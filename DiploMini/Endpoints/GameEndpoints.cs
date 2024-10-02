@@ -15,15 +15,14 @@ namespace DiploMini.Server.Endpoints
     {
         public static void MapGameEndpoints(this IEndpointRouteBuilder app)
         {
-            app.MapGet("GetInitialGameState", GetInitialGameState);
-            app.MapGet("/GetInitialMap", GetInitialMap) //Not active
-                .WithOpenApi()
-                .WithSummary("Provides map with starting country values")
-                .WithDescription("Informs on where to draw supply points and adjacent countries, as well as the board setup in terms of ownership and army placement.");
-
+            app.MapGet("/GetInitialGameState", GetInitialGameState);
+            app.MapPost("/PostOrders", PostOrders);
             app.MapGet("/GetUpdatedGameState", GetUpdatedGameState);
-            app.MapPost("/PostOrders", MovementTestOrder);
-            app.MapPost("/PostPlayers", PostPlayers);
+            //app.MapPost("/PostPlayers", PostPlayers);
+            //app.MapGet("/GetInitialMap", GetInitialMap) //Not active
+            //.WithOpenApi()
+            //.WithSummary("Provides map with starting country values")
+            //.WithDescription("Informs on where to draw supply points and adjacent countries, as well as the board setup in terms of ownership and army placement.");
             // Detailed documentation later?
         }
 
@@ -38,15 +37,6 @@ namespace DiploMini.Server.Endpoints
             string? AssistFaction,
             int Target,
             int Origin);
-
-        static Results<Ok<CountryResponse>, NotFound> GetInitialMap([FromServices] IGameService gameService)
-        {
-            CountryResponse response = new(gameService.GetInitialMap());
-
-            if (response == null || response.Countries.Count == 0)
-                return TypedResults.NotFound();
-            return TypedResults.Ok(response);
-        }
 
         static IResult GetInitialGameState([FromServices] IGameService gameService)
         {
@@ -73,39 +63,6 @@ namespace DiploMini.Server.Endpoints
             {
                 return TypedResults.NotFound();
             }
-        }
-
-        static IResult MovementTestOrder([FromServices] IGameService gameService, [FromBody] List<OrderRequest> orderRequests)
-        {
-            if (orderRequests == null || !orderRequests.Any())
-                return TypedResults.BadRequest(new { message = "No orders submitted." });
-            try
-            {
-                var orders = orderRequests.Select(o => new Order
-                {
-                    ArmyId = o.ArmyId,
-                    OwnerId = o.OwnerId,
-                    Contest = o.Contest,
-                    Support = o.Support,
-                    AssistFaction = o.AssistFaction,
-                    Target = o.Target,
-                    Origin = o.Origin
-                }).ToList();
-
-                gameService.HandleMovement(orders);
-                return TypedResults.Ok();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error processing orders: {ex.Message} \n {ex.StackTrace}");
-                return TypedResults.BadRequest(new { message = $"Error processing orders: {ex.Message}" });
-            }
-        }
-
-        static IResult SubmitOrders([FromServices] IGameService gameService, [FromBody] List<Order> orders)
-        {
-            gameService.SubmitOrders(orders);
-            return Results.Ok();
         }
 
         static IResult PostOrders([FromServices] IGameService gameService, [FromBody] List<OrderRequest> orderRequests)
@@ -135,21 +92,63 @@ namespace DiploMini.Server.Endpoints
             }
         }
 
-        static IResult PostPlayers([FromServices] IGameService gameService, [FromBody] List<string> playerNames)
-        {
-            if (Validator.ValidatePlayers(playerNames))
-            {
-                gameService.AddPlayersToGame(playerNames);
-                var game = gameService.GetGameState();
+        //static IResult MovementTestOrder([FromServices] IGameService gameService, [FromBody] List<OrderRequest> orderRequests)
+        //{
+        //    if (orderRequests == null || !orderRequests.Any())
+        //        return TypedResults.BadRequest(new { message = "No orders submitted." });
+        //    try
+        //    {
+        //        var orders = orderRequests.Select(o => new Order
+        //        {
+        //            ArmyId = o.ArmyId,
+        //            OwnerId = o.OwnerId,
+        //            Contest = o.Contest,
+        //            Support = o.Support,
+        //            AssistFaction = o.AssistFaction,
+        //            Target = o.Target,
+        //            Origin = o.Origin
+        //        }).ToList();
 
-                return TypedResults.Ok();
-            }
-            else
-            {
-                return TypedResults.BadRequest(new { message = "Player names are not unique or they are null/empty" });
-            }
+        //        gameService.HandleMovement(orders);
+        //        return TypedResults.Ok();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error processing orders: {ex.Message} \n {ex.StackTrace}");
+        //        return TypedResults.BadRequest(new { message = $"Error processing orders: {ex.Message}" });
+        //    }
+        //}
 
-        }
+        //static IResult SubmitOrders([FromServices] IGameService gameService, [FromBody] List<Order> orders)
+        //{
+        //    gameService.SubmitOrders(orders);
+        //    return Results.Ok();
+        //}
+
+        //static IResult PostPlayers([FromServices] IGameService gameService, [FromBody] List<string> playerNames)
+        //{
+        //    if (Validator.ValidatePlayers(playerNames))
+        //    {
+        //        gameService.AddPlayersToGame(playerNames);
+        //        var game = gameService.GetGameState();
+
+        //        return TypedResults.Ok();
+        //    }
+        //    else
+        //    {
+        //        return TypedResults.BadRequest(new { message = "Player names are not unique or they are null/empty" });
+        //    }
+
+        //}
+
+        //static Results<Ok<CountryResponse>, NotFound> GetInitialMap([FromServices] IGameService gameService)
+        //{
+        //    CountryResponse response = new(gameService.GetInitialMap());
+
+        //    if (response == null || response.Countries.Count == 0)
+        //        return TypedResults.NotFound();
+        //    return TypedResults.Ok(response);
+        //}
     }
 }
 
