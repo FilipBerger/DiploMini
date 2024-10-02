@@ -31,9 +31,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
 app.UseCors("AllowAllOrigins");
+
+if (!app.Environment.IsDevelopment())
+    app.UseHttpsRedirection();
 
 app.MapGameEndpoints();
 

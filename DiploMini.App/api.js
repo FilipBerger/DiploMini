@@ -1,16 +1,17 @@
 // Replace IP in base URL with your local IP
-const baseUrl = "https://192.168.0.221:7026"
+const baseUrl = "http://192.168.0.221:5000"
 
 export const getInitialGameState = async () => {
     try {
-        console.log("Making get request")
-        const response = await fetch(`${baseUrl}/GetInitialGameState`)
+        const response = await fetch(`${baseUrl}/GetInitialGameState`,
+            {
+                method: "GET"
+            }
+        )
         if (!response.ok) {
             throw new Error(`Status: ${response.status}`)
         }
-        console.log(response)
         const data = await response.json()
-        console.log(data)
         return data
     }
     catch (error) {
@@ -19,7 +20,11 @@ export const getInitialGameState = async () => {
 }
 
 export const getUpdatedGameState = async () => {
-    const response = await fetch(`${baseUrl}/GetUpdatedGameState`)
+    const response = await fetch(`
+        ${baseUrl}/GetUpdatedGameState`, 
+        {method: "GET"}
+    )
+    
     const data = await response.json()
     return data
 }
