@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Pressable } from 'react-native';
 import Svg from 'react-native-svg';
 import Country from './Country'; // Updated Country component
-import { ScrollView } from 'react-native-web';
+import { ScrollView } from 'react-native';
 
 const Map = (props) => {
   const [orderProps, setOrderProps] = useState({
@@ -32,7 +32,6 @@ const Map = (props) => {
   };
 
   return (
-    <ScrollView style={styles.scrollView}>
       <View style={styles.mapContainer}>
 
         {/* Render the map with countries */}
@@ -59,7 +58,6 @@ const Map = (props) => {
           </Svg>
         </Pressable>
       </View>
-    </ScrollView>
   );
 };
 
@@ -78,9 +76,6 @@ const styles = StyleSheet.create({
   iconImage: {
     width: '100%',
     height: '100%',
-  },
-  ScrollView: {
-    directionalLockEnabled: false,
   }
 });
 
