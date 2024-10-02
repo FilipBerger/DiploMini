@@ -1,7 +1,8 @@
 body, html {
     height: 100%;
     margin: 0;
-    background-color: #FAF9F6;
+    background: linear-gradient(0deg, rgba(233,228,228,1) 0%, rgba(149,155,164,1) 15%, rgba(255,255,255,1) 100%);
+    font-family: 'helvetica';
 }
 
 .game-container {
@@ -34,11 +35,28 @@ body, html {
     align-items: center;
     max-width: auto;
     height: auto;
+    width: 100%;
+    max-height: 80vh;
 }
 
 .map-container svg {
     width: auto;
     height: auto;
+}
+
+.select-order-dialog {
+    display: flex;
+    flex-direction: column; 
+    max-width: 50%;
+    position: absolute; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: grey;
+    opacity: 0.9;
+    color: white;
+    border-radius: 5px;
 }
 
 button {
@@ -47,22 +65,29 @@ button {
     font-size: 16px;
     border-radius: 5px;
     border: none;
-    background-color: #4CAF50;
+    background-color: #484366;
     color: white;
     cursor: pointer;
 }
 
 button:active {
-    background-color: #43A047;
+    background-color: #35314b;
+    mix-blend-mode: multiply;
 }
 
-@media screen and (min-width: 360px) and (max-width: 600px) {
+button:hover {
+    mix-blend-mode: multiply;
+}
+
+
+
+/* @media screen and (min-width: 360px) and (max-width: 600px) {
     .map-container {
         width: 80%;
     }
-}
+} */
 
-@media screen and (min-width: 600px) and (max-width: 900px) {
+/* @media screen and (min-width: 600px) and (max-width: 900px) {
     .map-container {
         width: 70%;
     }
@@ -83,4 +108,4 @@ button:active {
     .map-container {
         width: 40%;
     }
-}
+} */

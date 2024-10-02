@@ -18,8 +18,8 @@ namespace DiploMini.Models
         {
             return new List<Player>()
             {
-                new Player(){PlayerId = 1, FactionName = "TestFaction1", Color = "Red", Defeated = false, SubmittedOrders = false},
-                new Player(){PlayerId = 2, FactionName = "TestFaction2", Color = "Green", Defeated = false, SubmittedOrders = false},
+                new Player(){PlayerId = 1, FactionName = "The Waffle Warriors", Color = "Red", Defeated = false, SubmittedOrders = false},
+                new Player(){PlayerId = 2, FactionName = "The Bacon Bandits", Color = "Green", Defeated = false, SubmittedOrders = false},
             };
         }
     }

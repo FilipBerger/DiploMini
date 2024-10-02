@@ -24,7 +24,7 @@ const Country = ({
   useEffect(() => {
     if (mouseIsDown && (adjacentCountriesById.includes(Number(id)) || originCountryId === id)) {
       setCountryColor(colorData[color].CountryAdjacent); // Lighten adjacent country color
-      setStrokeColor(countryColor);
+      setStrokeColor(colorData[color].CountryBase);
       if (isHovered || originCountryId === id) {
         setCountryColor(colorData[color].CountrySelected); // Lighten the origin country
         setStrokeColor('black'); // Change stroke to black for hover or origin
@@ -48,7 +48,14 @@ const Country = ({
 
   return (
     <>
-      <path
+        <defs>
+          <filter id="f1">
+            <feDropShadow dx="2" dy="2" stdDeviation="2" floodOpacity="0.7"/>
+          </filter>
+        </defs>
+
+
+       <path
         d={shape}
         fill={countryColor}
         stroke={strokeColor}
@@ -58,9 +65,11 @@ const Country = ({
         onMouseLeave={handleMouseLeave}
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
+        filter="url(#f1)"
       />
 
-      <text x={center[0]} y={center[1] - 5} textAnchor="middle" fill="white">
+      <text x={center[0]} y={center[1] - 5} 
+      textAnchor="middle" fill="white" fontFamily="helvetica" fontWeight="bold" paintOrder="stroke" stroke="#000000" strokeWidth="3px" filter="url(#f1)">
         {name}
       </text>
 
