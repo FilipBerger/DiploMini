@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Button, ActivityIndicator } from "react-native";
-// import Map from "../Map/Map"; // Import when Map component is ported
+import Map from "./Map"; // Import when Map component is ported
 import { getUpdatedGameState, getInitialGameState, postOrders } from "../api";
 
 const Game = () => {
@@ -124,8 +124,26 @@ const Game = () => {
         <ActivityIndicator size="large" color="#0000ff" />
       )}
 
+    {/* {gameState ? (
+      <svg width="430" height="380" xmlns="http://www.w3.org/2000/svg" 
+      style={{ minWidth: '100%' }} >
+        {console.log(gameState)}
+        {gameState.map.map((country) => (
+          <path
+            d={country.shape}
+            fill={country.color}
+            stroke={country.color}
+            strokeWidth={4}
+            id={country.countryId}
+          />
+        ))}
+      </svg>
+      ) : (
+        <ActivityIndicator size="large" color="#0000ff" />
+      )} */}
+
       {/* Uncomment when Map component is ready */}
-      {/* {gameState ? (
+      {gameState ? (
         <Map
           mapData={gameState.map}
           playerData={gameState.players}
@@ -135,7 +153,7 @@ const Game = () => {
         />
       ) : (
         <ActivityIndicator size="large" color="#0000ff" />
-      )} */} 
+      )} 
 
       <Button title="Submit Orders" onPress={submitOrders} />
     </View>

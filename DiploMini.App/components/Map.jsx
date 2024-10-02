@@ -1,124 +1,87 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
-//import Country from './Country';  // Import when implemented
-//import SelectOrderDialog from './SelectOrderDialog'; // Import when implemented
-//import Arrow from './Arrow'; // Import when implemented
+import { View, StyleSheet, Image } from 'react-native';
+import { Pressable,TouchableHighlight } from 'react-native';
+import Svg from 'react-native-svg';
+import Country from './Country'; // Updated Country component
 
 const Map = (props) => {
   const [orderProps, setOrderProps] = useState({
-    mouseIsDown: false,
     selectedArmy: null,
     originCountryId: null,
-    targetCountryId: null,
     adjacentCountries: [],
   });
 
   const [showDialog, setShowDialog] = useState(false);
 
-  const handleTouchStart = (startCountry) => {
-    if (startCountry?.occupyingArmy?.ownerId === props.currentPlayerId) {
-      setOrderProps((prevState) => ({
-        ...prevState,
-        mouseIsDown: true,
-        selectedArmy: startCountry.occupyingArmy,
-        originCountryId: startCountry.countryId,
-        adjacentCountries: startCountry.adjacentCountriesById,
-        targetCountryId: null,
-      }));
-    }
-  };
-
-  const handleTouchEnd = (endCountry) => {
-    if (
-      orderProps.selectedArmy &&
-      endCountry &&
-      orderProps.adjacentCountries.includes(Number(endCountry.countryId))
-    ) {
-      setOrderProps((prevState) => ({
-        ...prevState,
-        targetCountryId: endCountry.countryId,
-      }));
+  const handleCountryPress = (country) => {
+    console.log(country)
+    console.log(orderProps);
+    if (!orderProps.selectedArmy && country?.occupyingArmy?.ownerId === props.currentPlayerId) {
+      setOrderProps({
+        selectedArmy: country.occupyingArmy,
+        originCountryId: country.countryId,
+        adjacentCountries: country.adjacentCountriesById,
+        
+      });
+      console.log(orderProps, "HEJ");
+    } else if (orderProps.selectedArmy && orderProps.adjacentCountries.includes(Number(country.countryId))) {
       setShowDialog(true);
+      setOrderProps({
+        selectedArmy: null,
+        originCountryId: null,
+        adjacentCountries: [],
+      });
+      console.log(orderProps, "DÅ")
     }
 
-    setOrderProps((prevState) => ({
-      ...prevState,
-      mouseIsDown: false,
-      adjacentCountries: [],
-    }));
-  };
-
-  const handleSelectOption = (orderOption) => {
-    setShowDialog(false);
-    if (orderOption !== false) {
-      const newOrders = props.updatedOrders?.map((o) =>
-        o.ArmyId === orderProps.selectedArmy.id
-          ? {
-              ...o,
-              Contest: orderOption === null,
-              Support: orderOption != null,
-              AssistFaction: orderOption,
-              Target: orderProps.targetCountryId,
-              Origin: orderProps.originCountryId,
-            }
-          : o
-      );
-      props.setUpdatedOrders(newOrders);
-    }
-
-    setOrderProps((prevState) => ({
-      ...prevState,
-      selectedArmy: null,
-    }));
   };
 
   return (
-    <>
-      {/* Render order dialog */}
-      {/* {showDialog && (
-        <SelectOrderDialog
-          onSelectOption={handleSelectOption}
-          players={props.playerData}
-        />
-      )} */}
-      
-      <View style={styles.mapContainer}>
-        {/* Render Countries */}
-        {/* {props.mapData.map((country) => (
+    <View style={styles.mapContainer}>
+      {/* Render the map with countries */}
+      <Pressable> 
+        <Svg>
+        {props.mapData.map((country) => (
           <Country
             key={country.countryId}
             id={country.countryId}
             shape={country.shape}
             center={country.center}
-            name={country.name}
             isSupplyPoint={country.isSupplyPoint}
             occupyingArmy={country.occupyingArmy}
             color={country.color}
-            mouseIsDown={orderProps.mouseIsDown}
-            adjacentCountriesById={orderProps.adjacentCountries}
-            onTouchStart={() => handleTouchStart(country)}
-            onTouchEnd={() => handleTouchEnd(country)}
-            originCountryId={orderProps.originCountryId}
+            isSelected={orderProps.originCountryId === country.countryId}
+            isAdjacent={orderProps.adjacentCountries.includes(Number(country.countryId))}
+            onPress={() => handleCountryPress(country)}
           />
-        ))} */}
+        ))}
+        </Svg>
+        </Pressable> 
 
-        {/* Render Arrows for each order */}
-        {/* {props.updatedOrders?.map((order) => {
+      {/* Render army icons over the map */}
+      {props.mapData.map((country) => {
+        if (country.occupyingArmy) {
           return (
-            <Arrow
-              key={order.ArmyId}
-              start={props.mapData.find((c) => c.countryId === order.Origin)}
-              end={props.mapData.find((c) => c.countryId === order.Target)}
-              color={
-                props.playerData.find((p) => p.factionName === order.AssistFaction)
-                  ?.color
-              }
-              assistedFaction={order.AssistFaction}
-            />
+            <View
+              key={`army-${country.countryId}`}
+              style={[
+                styles.armyIcon,
+                {
+                  left: country.center[0] - 10,
+                  top: country.center[1] - 10,
+                },
+              ]}
+            >
+              <Image
+                source={require('../assets/army_star_icon.svg')}
+                style={styles.iconImage}
+              />
+            </View>
           );
-        })} */}
-      </View>
-    </>
+        }
+        return null;
+      })}
+    </View>
   );
 };
 
@@ -126,8 +89,16 @@ const styles = StyleSheet.create({
   mapContainer: {
     width: '100%',
     height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    position: 'relative', // Allow absolute positioning of icons
+  },
+  armyIcon: {
+    position: 'absolute',
+    width: 20,
+    height: 20,
+  },
+  iconImage: {
+    width: '100%',
+    height: '100%',
   },
 });
 
