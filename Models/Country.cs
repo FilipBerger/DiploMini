@@ -45,7 +45,7 @@ namespace DiploMini.Models
             return new List<Country>()
             {
                 new Country(11,
-                "CountryA", 
+                "Värmland", 
                 false, 
                 1, 
                 new List<int>(){ 12, 13, 15 }, 
@@ -55,7 +55,7 @@ namespace DiploMini.Models
                 new List<int>(){ 100, 120 }),
 
                 new Country(12,
-                "CountryB", 
+                "Närke", 
                 true, 
                 1, 
                 new List<int>(){ 11, 13, 14, 15 }, 
@@ -65,7 +65,7 @@ namespace DiploMini.Models
                 new List<int>(){ 170, 190 }),
 
                 new Country(13,
-                "CountryC", 
+                "Västmanland", 
                 false, 
                 1, 
                 new List<int>(){ 11, 12, 14 }, 
@@ -75,7 +75,7 @@ namespace DiploMini.Models
                 new List<int>() { 240, 70 }),
                 
                 new Country(14, 
-                "CountryD", 
+                "Södermanland", 
                 false, 
                 2, 
                 new List<int>(){ 12, 13, 17 }, 
@@ -85,7 +85,7 @@ namespace DiploMini.Models
                 new List < int >() { 340, 130 }),
                 
                 new Country(15,
-                "CountryE", 
+                "Bohuslän", 
                 false, 
                 0, 
                 new List<int>(){ 11, 12, 16}, 
@@ -95,7 +95,7 @@ namespace DiploMini.Models
                 new List < int >() { 60, 250 }),
                 
                 new Country(16,
-                "CountryF", 
+                "Västergötland", 
                 true, 
                 2, 
                 new List<int>(){ 15, 17, 18 }, 
@@ -105,7 +105,7 @@ namespace DiploMini.Models
                 new List < int >() { 180, 310 }),
                 
                 new Country(17,
-                "CountryG", 
+                "Östergötland", 
                 false, 
                 0, 
                 new List<int>(){ 14, 16, 18 }, 
