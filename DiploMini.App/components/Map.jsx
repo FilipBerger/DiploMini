@@ -40,7 +40,11 @@ const Map = (props) => {
     <View style={styles.mapContainer}>
       {/* Render the map with countries */}
       <Pressable> 
-        <Svg>
+        <Svg
+          viewBox='0 0 430 380'
+          preserveAspectRatio='xMidyMid meet'
+          style={{width: '100%', height: '100%'}}
+        >
         {props.mapData.map((country) => (
           <Country
             key={country.countryId}
@@ -87,9 +91,10 @@ const Map = (props) => {
 
 const styles = StyleSheet.create({
   mapContainer: {
+    flex: 1,
     width: '100%',
     height: '100%',
-    position: 'relative', // Allow absolute positioning of icons
+    position: 'relative',
   },
   armyIcon: {
     position: 'absolute',
