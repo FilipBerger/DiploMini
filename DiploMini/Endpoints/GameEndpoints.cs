@@ -15,9 +15,18 @@ namespace DiploMini.Server.Endpoints
     {
         public static void MapGameEndpoints(this IEndpointRouteBuilder app)
         {
-            app.MapGet("/GetInitialGameState", GetInitialGameState);
-            app.MapPost("/PostOrders", PostOrders);
-            app.MapGet("/GetUpdatedGameState", GetUpdatedGameState);
+            app.MapGet("/GetInitialGameState", GetInitialGameState)
+                .WithOpenApi()
+                .WithSummary("Returns the initial game state ")
+                .WithDescription("Provides initial game state of the game including all necessary information to start the game.");
+            app.MapPost("/PostOrders", PostOrders)
+                .WithOpenApi()
+                .WithSummary("Submits orders for the current turn")
+                .WithDescription("Submits the updated orders for the current player turn");
+            app.MapGet("/GetUpdatedGameState", GetUpdatedGameState)
+                .WithOpenApi()
+                .WithSummary("Provides updated game state")
+                .WithDescription("Returns the updated game state after orders have been processed.");
             //app.MapPost("/PostPlayers", PostPlayers);
             //app.MapGet("/GetInitialMap", GetInitialMap) //Not active
             //.WithOpenApi()
