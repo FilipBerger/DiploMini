@@ -43,10 +43,8 @@ const Game = () => {
     if (gameState) {
         setUpdatedOrders(resetOrders(gameState.map));  // Reset orders when gameState is available
     }
-    }, [gameState]);  // Runs when gameState changes
+    }, [gameState]); 
 
-
-    // Goes to next player's turn or ends round
     const turnAdvance = () => {
         let nextPlayer = currentPlayerId + 1;
         while (nextPlayer < gameState.players.length && gameState.players[nextPlayer].Defeated) {
