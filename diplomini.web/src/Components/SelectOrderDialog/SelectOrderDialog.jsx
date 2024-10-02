@@ -15,29 +15,14 @@ const SelectOrderDialog = (
 
   return (
     <>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          maxWidth: '50%',
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 1000,
-          backgroundColor: 'grey',
-          opacity: '0.9'
-        }}>
+      <div 
+        className="select-order-dialog">
         <h3>Select order</h3>
-        {options.map((option) => ( // Use parentheses for clarity
-          <button
-            key={option.Description}
-            onClick={() => onSelectOption(option.Support)}
-            style={{
-              backgroundColor: option.Color,
-              opacity: '0.9',
-              borderRadius: '0'
-            }}>
+        {options.map((option) => (
+          <button 
+          key={option.Description} 
+          onClick={() => onSelectOption(option.Support)} 
+          style={{ backgroundColor: option.Color }}>
             <p>{option.Description}</p>
           </button>
         ))}
