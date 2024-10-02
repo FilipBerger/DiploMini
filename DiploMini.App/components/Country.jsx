@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo } from 'react';
-import { G, Path, Svg, Circle } from 'react-native-svg';
+import { G, Path, Svg, Circle, Rect } from 'react-native-svg';
 import { Pressable,TouchableHighlight } from 'react-native';
 import colorData from '../colorData';
 
@@ -45,6 +45,27 @@ const Country = ({
       {isSupplyPoint && (
         <Circle cx={center[0]} cy={center[1]} r={5} fill="white" />
       )}
+
+        {/* Render army icon if occupying army exists */}
+        {occupyingArmy && (
+            <>
+                <Rect
+                    x={center[0] - 4} // Adjust to center the rectangle
+                    y={center[1] - 4} // Adjust to center the rectangle
+                    width={20} // Width of the rectangle
+                    height={20} // Height of the rectangle
+                    fill="yellow" // You can change this to any color you prefer
+                />
+                    <Rect
+                    x={center[0] - 4} // Adjust to center the rectangle
+                    y={center[1] - 4} // Adjust to center the rectangle
+                    width={20} // Width of the rectangle
+                    height={20} // Height of the rectangle
+                    transform={`rotate(45, ${center[0] - 4 + 20 / 2}, ${center[1] - 4 + 20 / 2})`}
+                    fill="yellow" // You can change this to any color you prefer
+                />
+            </>
+        )}
     </G>
   );
 };
