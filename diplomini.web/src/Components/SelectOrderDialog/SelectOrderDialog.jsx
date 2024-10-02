@@ -1,7 +1,7 @@
 import colorData from "../../../colorData";
 
 const SelectOrderDialog = (
-  {onSelectOption, players}
+  { onSelectOption, players }
 ) => {
 
   const options = [
@@ -26,20 +26,20 @@ const SelectOrderDialog = (
             <p>{option.Description}</p>
           </button>
         ))}
-      </div>     
-      <div 
-      onClick={() => onSelectOption(false)} 
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-        backgroundColor: 'black',
-        opacity: '0.3',
-        zIndex: 999
-      }}
-    /> 
+      </div>
+      <div
+        onClick={() => onSelectOption(false)}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          backgroundColor: 'black',
+          opacity: '0.3',
+          zIndex: 999
+        }}
+      />
     </>
   );
 };

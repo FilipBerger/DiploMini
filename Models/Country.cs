@@ -18,7 +18,6 @@ namespace DiploMini.Models
         public string Color { get; set; }
         public List<int> Center { get; set; }
 
-
         public Country(int countryId, 
             string name, 
             bool isSupplyPoint, 

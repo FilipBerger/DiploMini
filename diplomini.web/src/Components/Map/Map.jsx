@@ -53,13 +53,13 @@ const Map = (props) => {
       const newOrders = props.updatedOrders?.map((o) =>
         o.ArmyId === orderProps.selectedArmy.id
           ? {
-              ...o,
-              Contest: orderOption === null,
-              Support: orderOption != null,
-              AssistFaction: orderOption,
-              Target: orderProps.targetCountryId,
-              Origin: orderProps.originCountryId,
-            }
+            ...o,
+            Contest: orderOption === null,
+            Support: orderOption != null,
+            AssistFaction: orderOption,
+            Target: orderProps.targetCountryId,
+            Origin: orderProps.originCountryId,
+          }
           : o
       );
       props.setUpdatedOrders(newOrders);
@@ -73,15 +73,15 @@ const Map = (props) => {
 
   return (
     <>
-    {/* Render order dialog */}
+      {/* Render order dialog */}
       {showDialog && (
         <SelectOrderDialog
           onSelectOption={handleSelectOption}
           players={props.playerData}
         />
       )}
-      <svg width="100%" 
-        height="100%" 
+      <svg width="100%"
+        height="100%"
         viewBox="0 0 430 380" xmlns="http://www.w3.org/2000/svg" onMouseUp={() => handleMouseUp()} style={{ minWidth: '100%' }} >
         {/* Render Countries */}
         {props.mapData.map((country) => (

@@ -10,8 +10,6 @@ namespace DiploMini.Models
     public class Army
     {
         public int Id { get; set; }
-
         public int OwnerId { get; set; }
-        //public Player Owner { get; set; }
     }
 }
