@@ -30,6 +30,7 @@ const Game = () => {
         try {
             const data = await getInitialGameState()
             setGameState(data)
+            console.log(data)
         }
         catch (error) {
             console.error("Error when loading game state: ", error.message)

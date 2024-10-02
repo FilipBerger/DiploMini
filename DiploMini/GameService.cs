@@ -36,6 +36,8 @@ namespace DiploMini.Server
 
         public Game GetGameState()
         {
+            foreach (var country in Game.Map) 
+                country.Color = Game.Players.Where(p => p.PlayerId == country.OwnerId).Select(p => p.Color).FirstOrDefault("Grey");
             return Game;
             //return Game.Map;
         }
