@@ -3,10 +3,8 @@ import ArmyIcon from '../../assets/army_star_icon.svg';
 import colorData from '../../../colorData';
 
 const Country = ({
-  d,
+  shape,
   color,
-  stroke,
-  strokeWidth,
   id,
   name,
   occupyingArmy,
@@ -16,7 +14,7 @@ const Country = ({
   onMouseUp,
   mouseIsDown,
   originCountryId,
-  isAdjacent
+  adjacentCountriesById
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [countryColor, setCountryColor] = useState(colorData[color].CountryBase); // Country color state
@@ -24,7 +22,7 @@ const Country = ({
 
   // Update the country color based on hover and dragging state
   useEffect(() => {
-    if (mouseIsDown && (isAdjacent.includes(Number(id)) || originCountryId === id)) {
+    if (mouseIsDown && (adjacentCountriesById.includes(Number(id)) || originCountryId === id)) {
       setCountryColor(colorData[color].CountryAdjacent); // Lighten adjacent country color
       setStrokeColor(countryColor);
       if (isHovered || originCountryId === id) {
@@ -35,7 +33,7 @@ const Country = ({
       setCountryColor(colorData[color].CountryBase); // Reset to original fill
       setStrokeColor(colorData[color].CountryBase); // Reset to original stroke
     }
-  }, [mouseIsDown, isHovered, isAdjacent, originCountryId, color, stroke, id]);
+  }, [mouseIsDown, isHovered, adjacentCountriesById, originCountryId, color, id]);
 
   // Handle hover effects
   const handleMouseEnter = () => {
@@ -51,10 +49,10 @@ const Country = ({
   return (
     <>
       <path
-        d={d}
+        d={shape}
         fill={countryColor}
         stroke={strokeColor}
-        strokeWidth={strokeWidth}
+        strokeWidth={4}
         id={id}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}

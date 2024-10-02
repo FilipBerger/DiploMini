@@ -86,17 +86,14 @@ const Map = (props) => {
           <Country
             key={country.countryId}
             id={country.countryId}
-            d={country.d}
+            shape={country.shape}
             center={country.center}
             name={country.name}
             isSupplyPoint={country.isSupplyPoint}
             occupyingArmy={country.occupyingArmy}
-            // fill={country.fill}
             color={country.color}
-            stroke={country.stroke}
-            strokeWidth={country.strokeWidth}
             mouseIsDown={orderProps.mouseIsDown}
-            isAdjacent={orderProps.adjacentCountries}
+            adjacentCountriesById={orderProps.adjacentCountries}
             onMouseDown={() => handleMouseDown(country)}
             onMouseUp={() => handleMouseUp(country)}
             originCountryId={orderProps.originCountryId}
