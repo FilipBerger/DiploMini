@@ -3,6 +3,7 @@ import { View, StyleSheet, Image } from 'react-native';
 import { Pressable,TouchableHighlight } from 'react-native';
 import Svg from 'react-native-svg';
 import Country from './Country'; // Updated Country component
+import { ScrollView } from 'react-native-web';
 
 const Map = (props) => {
   const [orderProps, setOrderProps] = useState({
@@ -37,7 +38,9 @@ const Map = (props) => {
   };
 
   return (
+    <ScrollView style={styles.scrollView}>
     <View style={styles.mapContainer}>
+      
       {/* Render the map with countries */}
       <Pressable> 
         <Svg
@@ -60,32 +63,9 @@ const Map = (props) => {
           />
         ))}
         </Svg>
-        </Pressable> 
-
-      {/* Render army icons over the map */}
-      {props.mapData.map((country) => {
-        if (country.occupyingArmy) {
-          return (
-            <View
-              key={`army-${country.countryId}`}
-              style={[
-                styles.armyIcon,
-                {
-                  left: country.center[0] - 10,
-                  top: country.center[1] - 10,
-                },
-              ]}
-            >
-              <Image
-                source={require('../assets/army_star_icon.svg')}
-                style={styles.iconImage}
-              />
-            </View>
-          );
-        }
-        return null;
-      })}
+        </Pressable>       
     </View>
+    </ScrollView>
   );
 };
 
@@ -105,6 +85,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  ScrollView: {
+    directionalLockEnabled: false,
+  }
 });
 
 export default Map;
