@@ -1,5 +1,4 @@
-// Replace IP in base URL with your local IP
-const baseUrl = "http://192.168.1.214:5000"
+import { baseUrl } from "./baseUrl"// Create your own personal baseUrl.js file
 
 export const getInitialGameState = async () => {
     try {

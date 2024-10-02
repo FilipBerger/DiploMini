@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Button, ActivityIndicator, StyleSheet, ScrollView, Pressable } from "react-native";
-import Map from "./Map"; // Import when Map component is ported
+import { View, Text, ActivityIndicator, StyleSheet, Pressable } from "react-native";
+import Map from "./Map";
 import { getUpdatedGameState, getInitialGameState, postOrders } from "../api";
 
 const Game = () => {
@@ -115,18 +115,18 @@ const Game = () => {
   return (
     <View style={styles.gameContainer}>
       {gameState ? (<Text style={styles.ingameDateTxt}>{gameState.ingameDate}</Text>
-          ) : (
-          <ActivityIndicator size="large" color="#0000ff" />)}
+      ) : (
+        <ActivityIndicator size="large" color="#0000ff" />)}
 
       {gameState ? (
-          <Text style={styles.playerTurnTxt}>
+        <Text style={styles.playerTurnTxt}>
           {gameState.players[currentPlayerId - 1].factionName}'s turn
-          </Text>
-          ) : (
-          <ActivityIndicator size="large" color="#0000ff" />
+        </Text>
+      ) : (
+        <ActivityIndicator size="large" color="#0000ff" />
       )}
 
-    {/* {gameState ? (
+      {/* {gameState ? (
       <svg width="430" height="380" xmlns="http://www.w3.org/2000/svg" 
       style={{ minWidth: '100%' }} >
         {console.log(gameState)}
@@ -144,62 +144,61 @@ const Game = () => {
         <ActivityIndicator size="large" color="#0000ff" />
       )} */}
 
-      {/* Uncomment when Map component is ready */}
       {gameState ? (
 
-          <View style={styles.mapContainer}>
-            <Map
-              mapData={gameState.map}
-              playerData={gameState.players}
-              updatedOrders={updatedOrders}
-              setUpdatedOrders={setUpdatedOrders}
-              currentPlayerId={currentPlayerId}
-            />
-          </View>
-        
+        <View style={styles.mapContainer}>
+          <Map
+            mapData={gameState.map}
+            playerData={gameState.players}
+            updatedOrders={updatedOrders}
+            setUpdatedOrders={setUpdatedOrders}
+            currentPlayerId={currentPlayerId}
+          />
+        </View>
+
       ) : (
         <ActivityIndicator size="large" color="#0000ff" />
-      )} 
+      )}
 
-        <Pressable
-          onPress={submitOrders}
-          style={({ pressed }) => [
-            {
-              backgroundColor: pressed ? "#43A047" : "#4CAF50",
-              height: 60,
-              justifyContent: "center",
-              alignItems: "center",
-              marginVertical: 20,
-              borderRadius: 5,
-            },
-          ]}
-        >
-            <Text style={styles.buttonText}>Submit Orders</Text>
-        </Pressable>
+      <Pressable
+        onPress={submitOrders}
+        style={({ pressed }) => [
+          {
+            backgroundColor: pressed ? "#43A047" : "#4CAF50",
+            height: 60,
+            justifyContent: "center",
+            alignItems: "center",
+            marginVertical: 20,
+            borderRadius: 5,
+          },
+        ]}
+      >
+        <Text style={styles.buttonText}>Submit Orders</Text>
+      </Pressable>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   gameContainer: {
-      flex: 1,
-      paddingTop: 30,
-      width: '100%'
+    flex: 1,
+    paddingTop: 30,
+    width: '100%'
   },
   buttonText: {
-      color: 'white',
-      fontSize: 20,
+    color: 'white',
+    fontSize: 20,
   },
   playerTurnTxt: {
-      fontSize: 20, 
-      fontWeight: "bold",
-      textAlign: "center"
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center"
   },
   ingameDateTxt: {
-      fontSize: 20, 
-      fontWeight: "bold",
-      textAlign: "center",
-      marginBottom: 10
+    fontSize: 20,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 10
   },
   mapContainer: {
     flex: 1

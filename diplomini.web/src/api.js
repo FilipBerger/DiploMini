@@ -1,4 +1,4 @@
-import { baseUrl } from "./baseUrl"
+import { baseUrl } from "./baseUrl" // Create your own personal baseUrl.js file
 
 export const getInitialGameState = async () => {
     const response = await fetch(`${baseUrl}/GetInitialGameState`)
