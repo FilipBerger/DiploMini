@@ -9,7 +9,10 @@ const Arrow = ({ start, end, color, assistedFaction }) => {
   if (!start || !end || start === end) return null;
 
   // Sanitize the color to generate a valid marker ID
-  const markerId = `arrowhead-${color}-${assistedFaction}`;
+  const markerId = `arrowhead-${start.center[0]}-${start.center[1]}`;
+
+  if (start !== end) 
+    console.log(color, arrowColor)
 
   return (
     <>
