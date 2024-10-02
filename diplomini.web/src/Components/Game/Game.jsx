@@ -114,14 +114,19 @@ const Game = () => {
 
     return (
         
-        <div>
-            {gameState ? <p>Date: {gameState.ingameDate}</p> : <p>Loading...</p>}
+        <div className="game-container">
+            <div className="top-right">
+            {gameState ? <h4>{gameState.ingameDate}</h4> : <p>Loading...</p>}
+            </div>
             {/* {gameState ? <PlayerTurn playerData={gameState.players}/> : <p>Loading...</p>} */}
-            {gameState ? <h2>Player {gameState.players[currentPlayerId-1].factionName}'s turn</h2> : <p>Loading...</p>}
+            <div className="center-content">
+            {gameState ? <h2>{gameState.players[currentPlayerId-1].factionName}'s turn</h2> : <p>Loading...</p>}
+            <div className="map-container">
             {gameState ?  (<Map mapData={gameState.map} playerData={gameState.players} updatedOrders={updatedOrders} setUpdatedOrders={setUpdatedOrders} currentPlayerId={currentPlayerId}/>) : <p>Loading...</p>}
             {/* <button onClick={updateGameState} >Update Game State</button> */}
+            </div>
             <button onClick={submitOrders}>Submit Orders</button>
-
+            </div>
         </div>
     )
 }

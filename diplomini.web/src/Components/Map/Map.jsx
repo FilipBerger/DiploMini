@@ -80,7 +80,9 @@ const Map = (props) => {
           players={props.playerData}
         />
       )}
-      <svg width="430" height="380" xmlns="http://www.w3.org/2000/svg" onMouseUp={() => handleMouseUp()} style={{ minWidth: '100%' }} >
+      <svg width="100%" 
+        height="100%" 
+        viewBox="0 0 430 380" xmlns="http://www.w3.org/2000/svg" onMouseUp={() => handleMouseUp()} style={{ minWidth: '100%' }} >
         {/* Render Countries */}
         {props.mapData.map((country) => (
           <Country
