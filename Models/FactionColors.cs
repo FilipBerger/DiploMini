@@ -10,6 +10,5 @@
         Blue,
         Purple,
         Pink
-
     }
 }
