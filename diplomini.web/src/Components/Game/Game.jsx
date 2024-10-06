@@ -11,7 +11,7 @@ const Game = () => {
         if (!updatedMap) {
             return [];
         }
-        return updatedMap
+        return updatedMap   //  All armies get standard orders to contest (defend) their current location
             .filter(country => country.occupyingArmy)
             .map(country => ({
                 ArmyId: country.occupyingArmy.id,
@@ -43,7 +43,7 @@ const Game = () => {
         }
     }, [gameState]);
 
-    const turnAdvance = () => {
+    const turnAdvance = () => { 
         let nextPlayer = currentPlayerId + 1;
         while (nextPlayer < gameState.players.length && gameState.players[nextPlayer].Defeated) {
             nextPlayer++;
@@ -77,7 +77,7 @@ const Game = () => {
                 const updatedMap = gameState.map.map((country) => {
                     const updatedCountry = updateResponse.map.find(c => c.countryId === country.countryId)
                     if (updatedCountry) {
-                        return {
+                        return {    // Countries are updated only with values that may change
                             ...country,
                             ownerId: updatedCountry.ownerId,
                             occupyingArmy: updatedCountry.occupyingArmy,
