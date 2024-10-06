@@ -1,10 +1,10 @@
 import colorData from "../../../colorData";
 
-const SelectOrderDialog = (
+const SelectOrderDialog = (   // Modal window to collect order details from player - Assist/support is not yet implemented
   { onSelectOption, players }
 ) => {
 
-  const options = [
+  const options = [ // Fill out possible orders by looking through players
     { Description: 'Move/Attack', Support: null, Color: null },
     ...players.map((player) => ({
       Description: `Support ${player.factionName}`,
@@ -18,6 +18,7 @@ const SelectOrderDialog = (
       <div 
         className="select-order-dialog">
         <h3>Select order</h3>
+        {/* Buttons for each option */}
         {options.map((option) => (
           <button 
           key={option.Description} 
@@ -27,8 +28,9 @@ const SelectOrderDialog = (
           </button>
         ))}
       </div>
+      {/* Background overlay */}
       <div
-        onClick={() => onSelectOption(false)}
+        onClick={() => onSelectOption(false)} // Click to abort order creation
         style={{
           position: 'fixed',
           top: 0,

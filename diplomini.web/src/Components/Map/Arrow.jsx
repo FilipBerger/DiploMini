@@ -3,20 +3,16 @@ import colorData from '../../../colorData';
 
 // Arrow component to connect two countries based on their center points
 const Arrow = ({ start, end, color, assistedFaction }) => {
-  const arrowColor = color == null ? 'Black' : colorData[color].Arrow;
+  const arrowColor = color == null ? 'Black' : colorData[color].Arrow; // Set color to black for non-assist orders 
 
-  // Ensure start and end points are valid
-  if (!start || !end || start === end) return null;
+  if (!start || !end || start === end) // Ensure valid start- and end-points 
+    return null; 
 
-  // Sanitize the color to generate a valid marker ID
-  const markerId = `arrowhead-${start.center[0]}-${start.center[1]}`;
-
-  if (start !== end) 
-    console.log(color, arrowColor)
+  const markerId = `arrowhead-${start.center[0]}-${start.center[1]}`; // Form unique id for arrowhead
 
   return (
     <>
-      {/* Define the arrow marker */}
+      {/* Define arrowhead marker */}
       <defs>
         <marker
           id={markerId}
@@ -31,18 +27,20 @@ const Arrow = ({ start, end, color, assistedFaction }) => {
         </marker>
       </defs>
 
+      {/* Line from center of origin coutnry to center of target country */}
       <line
         x1={start.center[0]} y1={start.center[1]}
         x2={end.center[0]} y2={end.center[1]}
         stroke={arrowColor}
         strokeWidth="2"
-        markerEnd={`url(#${markerId})`} // Attach arrow marker at the end
+        markerEnd={`url(#${markerId})`} // Attaches arrowhead at end
       />
 
+      {/* Display name of assisted faction, if any */}
       {assistedFaction && 
         <text
-          x={(start.center[0] + end.center[0]) / 2} // Position in the middle of x
-          y={(start.center[1] + end.center[1]) / 2} // Position in the middle of y
+          x={(start.center[0] + end.center[0]) / 2} // Positions in the middle of the line
+          y={(start.center[1] + end.center[1]) / 2}
           fill="black"
           fontSize="12"
           textAnchor="middle"

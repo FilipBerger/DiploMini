@@ -4,19 +4,19 @@ import SelectOrderDialog from '../SelectOrderDialog/SelectOrderDialog';
 import Arrow from './Arrow';
 
 const Map = (props) => {
-  const [orderProps, setOrderProps] = useState({
-    mouseIsDown: false,
-    selectedArmy: null,
-    originCountryId: null,
-    targetCountryId: null,
-    adjacentCountries: []
+  const [orderProps, setOrderProps] = useState({  // Values passed down to render and validate orders and order input
+    mouseIsDown: false,                           
+    selectedArmy: null,     // Army being moved 
+    originCountryId: null,  // Start dragging from this country
+    targetCountryId: null,  // Drop onto this country
+    adjacentCountries: []   // While dragging, these are set to adjacent countries of originCountry 
   });
 
   const [showDialog, setShowDialog] = useState(false);
 
-  const handleMouseDown = (startCountry) => {
-    if (startCountry?.occupyingArmy?.ownerId === props.currentPlayerId) {
-      setOrderProps((prevState) => ({
+  const handleMouseDown = (startCountry) => { // Fetch values from Country via callback function
+    if (startCountry?.occupyingArmy?.ownerId === props.currentPlayerId) { // Only allow army owner to move army 
+      setOrderProps((prevState) => ({ 
         ...prevState,
         mouseIsDown: true,
         selectedArmy: startCountry.occupyingArmy,
@@ -27,20 +27,20 @@ const Map = (props) => {
     }
   };
 
-  const handleMouseUp = (endCountry) => {
-    if (
+  const handleMouseUp = (endCountry) => { // Fetch values from Country via callback function
+    if (  // Ensure dialog is only shown if move was made with army to proper target  
       orderProps.selectedArmy &&
       endCountry &&
       orderProps.adjacentCountries.includes(Number(endCountry.countryId))
     ) {
-      setOrderProps((prevState) => ({
+      setOrderProps((prevState) => ({ 
         ...prevState,
         targetCountryId: endCountry.countryId,
       }));
       setShowDialog(true);
     }
 
-    setOrderProps((prevState) => ({
+    setOrderProps((prevState) => ({ 
       ...prevState,
       mouseIsDown: false,
       adjacentCountries: []
@@ -49,9 +49,9 @@ const Map = (props) => {
 
   const handleSelectOption = (orderOption) => {
     setShowDialog(false);
-    if (orderOption !== false) {
+    if (orderOption !== false) {  // "Move/Attack" returns null, false equals aborted order (unclear, adjust logic)
       const newOrders = props.updatedOrders?.map((o) =>
-        o.ArmyId === orderProps.selectedArmy.id
+        o.ArmyId === orderProps.selectedArmy.id   // Orders for selected army is updated with new values 
           ? {
             ...o,
             Contest: orderOption === null,
@@ -80,10 +80,10 @@ const Map = (props) => {
           players={props.playerData}
         />
       )}
+      {/* Render Countries */}
       <svg width="100%"
         height="100%"
         viewBox="0 0 430 380" xmlns="http://www.w3.org/2000/svg" onMouseUp={() => handleMouseUp()} style={{ minWidth: '100%' }} >
-        {/* Render Countries */}
         {props.mapData.map((country) => (
           <Country
             key={country.countryId}

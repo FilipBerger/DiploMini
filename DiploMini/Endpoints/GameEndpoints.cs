@@ -57,7 +57,7 @@ namespace DiploMini.Server.Endpoints
             var game = gameService.GetGameState();
             if (!game.UpdateReady)
                 return TypedResults.NotFound();
-            try
+            try // Repackage game state to only send values that may be updated
             {
                 List<int> players = game.Players.Select(o => o.PlayerId).ToList();
                 List<ShortCountryResponse> map = game.Map
@@ -80,7 +80,7 @@ namespace DiploMini.Server.Endpoints
                 return TypedResults.BadRequest(new { message = "No orders submitted." });
             try
             {
-                var orders = orderRequests.Select(o => new Order
+                var orders = orderRequests.Select(o => new Order    // Map into proper order object
                 {
                     ArmyId = o.ArmyId,
                     OwnerId = o.OwnerId,
